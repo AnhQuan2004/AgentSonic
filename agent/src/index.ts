@@ -61,7 +61,7 @@ import { normalizeCharacter } from "@elizaos/plugin-di";
 // import { abstractPlugin } from "@elizaos/plugin-abstract";
 // import { akashPlugin } from "@elizaos/plugin-akash";
 // import { alloraPlugin } from "@elizaos/plugin-allora";
-// import { aptosPlugin } from "@elizaos/plugin-aptos";
+import { aptosPlugin } from "@elizaos/plugin-aptos";
 // import { artheraPlugin } from "@elizaos/plugin-arthera";
 // import { autonomePlugin } from "@elizaos/plugin-autonome";
 // import { availPlugin } from "@elizaos/plugin-avail";
@@ -1161,6 +1161,7 @@ export async function createAgent(
             //     ? lensPlugin
             //     : null,
             // getSecret(character, "APTOS_PRIVATE_KEY") ? aptosPlugin : null,
+            aptosPlugin,
             // getSecret(character, "MIND_COLD_WALLET_ADDRESS")
             //     ? mindNetworkPlugin
             //     : null,

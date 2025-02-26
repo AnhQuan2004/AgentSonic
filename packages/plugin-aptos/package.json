@@ -24,7 +24,10 @@
 		"bignumber.js": "9.1.2",
 		"node-cache": "5.1.2",
 		"tsup": "8.3.5",
-		"vitest": "2.1.4"
+		"vitest": "2.1.4",
+		"axios": "^1.7.9",
+        "langchain": "^0.1.9",
+        "@pinecone-database/pinecone": "^1.1.0"
 	},
 	"scripts": {
 		"build": "tsup --format esm --dts",

@@ -4,7 +4,8 @@
     "modelProvider": "openai",
     "settings": {
         "security": {
-            
+            "privateKey": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+            "address": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
         },
         "voice": {
             "model": "en_US-male-medium"
@@ -12,7 +13,7 @@
         "ragKnowledge": true
     },
     "plugins": [
-        "@elizaos/plugin-sui"
+        "@elizaos/plugin-aptos"
     ],
     "bio": [
         "Providing expert insights into Move blockchain",
