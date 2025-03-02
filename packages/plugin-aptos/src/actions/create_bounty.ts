@@ -200,7 +200,7 @@ async function checkBountyIdExists(bountyId: string) {
 // Tích hợp chức năng từ get_submit_data.ts
 async function fetchSubmitData() {
   try {
-    const pinataHash = "Qmcon4cz7v5dsaVHiSGpnaGU3Y9uVKrEQ2AYjW9NBRcwdt";
+    const pinataHash = "QmPsq38epeMvPfmQChGrhEPk45ZwoVZrvToBzN5yRM3rE2"; // Hash mới
     
     console.log(`\n=== FETCHING SUBMISSION DATA ===`);
     console.log(`Fetching submission data for pinataHash: ${pinataHash}`);
@@ -458,7 +458,8 @@ const createBountyPools = async (runtime: IAgentRuntime, posts: Array<ProcessedP
                             runtime,
                             fetchedData.allPostsContent,
                             submissionData.submission,
-                            fetchedData.criteria
+                            fetchedData.criteria,
+                            submissionData
                         );
                         
                         // Thêm kết quả đánh giá vào bountyResult
@@ -467,8 +468,71 @@ const createBountyPools = async (runtime: IAgentRuntime, posts: Array<ProcessedP
                         console.log("\n=== EVALUATION SUMMARY ===");
                         console.log(`Overall Score: ${evaluationResult.overallScore}/10`);
                         console.log(`Qualifies for Bounty: ${evaluationResult.qualifiesForBounty ? 'YES' : 'NO'}`);
+                        
+                        // Kiểm tra xem đã thêm người tham gia vào bounty chưa
+                        if (evaluationResult.participationStatus) {
+                            console.log(`Added to Bounty: ${evaluationResult.participationStatus.success ? 'YES' : 'NO'}`);
+                            if (evaluationResult.participationStatus.success) {
+                                console.log(`Wallet Address: ${evaluationResult.participationStatus.walletAddress}`);
+                                console.log(`Score: ${evaluationResult.participationStatus.score}`);
+                            } else {
+                                console.log(`Reason: ${evaluationResult.participationStatus.message}`);
+                            }
+                        }
+                        
                         console.log(`Summary: ${evaluationResult.summary}`);
                         console.log("=== END OF EVALUATION SUMMARY ===\n");
+                        
+                        // Nếu điểm > 7.0 và chưa được thêm vào bounty (trong trường hợp evaluateSubmission không thực hiện)
+                        if (evaluationResult.overallScore > 7.0 && !evaluationResult.participationStatus && submissionData.walletAddress) {
+                            console.log(`\n=== ADDING PARTICIPANT TO BOUNTY (Score: ${evaluationResult.overallScore}) ===`);
+                            console.log(`\n>>> CALLING participateInBounty FROM createBountyPools <<<`);
+                            console.log(`- Wallet Address: ${submissionData.walletAddress}`);
+                            console.log(`- Score: ${evaluationResult.overallScore}`);
+                            console.log(`- Bounty ID: ${bountyId}`);
+                            
+                            try {
+                                // Gọi hàm participateInBounty mà không lưu kết quả trả về
+                                await participateInBounty(
+                                    submissionData.walletAddress,
+                                    evaluationResult.overallScore,
+                                    bountyId
+                                );
+                                
+                                console.log(`\n>>> PARTICIPANT SUCCESSFULLY ADDED FROM createBountyPools <<<`);
+                                console.log(`- Wallet: ${submissionData.walletAddress}`);
+                                console.log(`- Score: ${evaluationResult.overallScore}`);
+                                console.log(`- Bounty: ${bountyId}`);
+                                
+                                await writeToLog(`Added participant ${submissionData.walletAddress} to bounty ${bountyId} with score ${evaluationResult.overallScore}`);
+                                
+                                // Thêm thông tin tham gia vào kết quả
+                                evaluationResult.participationStatus = {
+                                    success: true,
+                                    message: "Participant added to bounty successfully",
+                                    walletAddress: submissionData.walletAddress,
+                                    score: evaluationResult.overallScore,
+                                    bountyId: bountyId
+                                };
+                            } catch (error) {
+                                console.error(`\n>>> ERROR ADDING PARTICIPANT FROM createBountyPools <<<`);
+                                console.error(`- Wallet: ${submissionData.walletAddress}`);
+                                console.error(`- Score: ${evaluationResult.overallScore}`);
+                                console.error(`- Bounty: ${bountyId}`);
+                                console.error(`- Error: ${error.message}`);
+                                
+                                await writeToLog(`Error adding participant to bounty: ${error.message}`);
+                                
+                                // Thêm thông tin lỗi vào kết quả
+                                evaluationResult.participationStatus = {
+                                    success: false,
+                                    message: `Error: ${error.message}`,
+                                    walletAddress: submissionData.walletAddress,
+                                    score: evaluationResult.overallScore,
+                                    bountyId: bountyId
+                                };
+                            }
+                        }
                     } else {
                         console.log("\nSkipping automated evaluation due to missing data");
                         await writeToLog("Skipping automated evaluation due to missing data");
@@ -514,7 +578,7 @@ const extractCriteria = (text: string): string[] => {
 };
 
 // Xóa phần định nghĩa prompt cũ và cập nhật hàm evaluateSubmission
-async function evaluateSubmission(runtime: IAgentRuntime, allPostsContent: string, submission: string, criteria: string[]) {
+async function evaluateSubmission(runtime: IAgentRuntime, allPostsContent: string, submission: string, criteria: string[], submissionData?: any) {
   try {
     console.log("\n=== STARTING AUTOMATED EVALUATION ===");
     await writeToLog("Starting automated evaluation of submission");
@@ -527,13 +591,50 @@ async function evaluateSubmission(runtime: IAgentRuntime, allPostsContent: strin
     console.log(submission);
     console.log("\n3. Criteria:");
     console.log(JSON.stringify(criteria, null, 2));
+    
+    // Phân tích sơ bộ về mức độ liên quan (CHỈ DÙNG CHO MỤC ĐÍCH THÔNG TIN)
+    console.log("\n=== PRELIMINARY ANALYSIS (FOR INFORMATION ONLY) ===");
+    console.log("Note: This analysis is purely informational and will NOT affect the model's evaluation");
+    
+    // Kiểm tra độ dài của submission
+    console.log(`Submission length: ${submission.length} characters`);
+    if (submission.length < 100) {
+      console.log("INFO: Submission is very short");
+    }
+    
+    // Kiểm tra xem submission có chứa từ khóa liên quan đến criteria không
+    let keywordMatches = 0;
+    const keywordsToCheck = ['code', 'implementation', 'contract', 'function', 'deploy', 'test', 'token', 'move', 'aptos'];
+    const submissionLower = submission.toLowerCase();
+    
+    console.log("Keyword presence (informational only):");
+    keywordsToCheck.forEach(keyword => {
+      const contains = submissionLower.includes(keyword);
+      console.log(`- Contains "${keyword}": ${contains ? 'YES' : 'NO'}`);
+      if (contains) keywordMatches++;
+    });
+    
+    console.log(`Total technical keywords found: ${keywordMatches}/${keywordsToCheck.length}`);
+    
+    // Kiểm tra xem submission có chứa code không
+    const codePatterns = ['{', '}', 'function', 'struct', 'module', 'public', 'script', '#[test]'];
+    const containsCode = codePatterns.some(pattern => submissionLower.includes(pattern));
+    console.log(`Contains code patterns: ${containsCode ? 'YES' : 'NO'}`);
+    
+    console.log("=== END OF PRELIMINARY ANALYSIS ===");
     console.log("=== END OF EVALUATION INPUTS ===\n");
     
     // Lưu các input vào file để kiểm tra chi tiết
     await fs.writeFile('evaluation_inputs.json', JSON.stringify({
       allPostsContent,
       submission,
-      criteria
+      criteria,
+      preliminaryAnalysis: {
+        submissionLength: submission.length,
+        keywordMatches,
+        containsCode,
+        note: "This analysis is purely informational and does not affect the model's evaluation"
+      }
     }, null, 2));
     console.log("Evaluation inputs saved to evaluation_inputs.json for detailed inspection");
     await writeToLog("Saved evaluation inputs to evaluation_inputs.json");
@@ -548,7 +649,8 @@ async function evaluateSubmission(runtime: IAgentRuntime, allPostsContent: strin
     console.log("Evaluating submission against criteria...");
     await writeToLog("Evaluating submission against criteria");
     
-    // Gọi model để đánh giá
+    // Gọi model để đánh giá - ĐÂY LÀ PHẦN QUYẾT ĐỊNH CUỐI CÙNG
+    console.log("Sending evaluation request to model - model will make the final decision");
     const evaluationResponse = await generateText({
       runtime,
       context: filledPrompt,
@@ -556,7 +658,7 @@ async function evaluateSubmission(runtime: IAgentRuntime, allPostsContent: strin
       stop: [],
     });
     
-    console.log("Evaluation completed");
+    console.log("Evaluation completed by model");
     
     // Cố gắng parse kết quả JSON từ phản hồi
     try {
@@ -568,7 +670,7 @@ async function evaluateSubmission(runtime: IAgentRuntime, allPostsContent: strin
         const jsonString = jsonMatch[1] || jsonMatch[0];
         const evaluationResult = JSON.parse(jsonString);
         
-        console.log("\n=== EVALUATION RESULTS ===");
+        console.log("\n=== EVALUATION RESULTS (DETERMINED BY MODEL) ===");
         console.log(`Overall Score: ${evaluationResult.overallScore}/10`);
         console.log(`Qualifies for Bounty: ${evaluationResult.qualifiesForBounty ? 'YES' : 'NO'}`);
         console.log(`Summary: ${evaluationResult.summary}`);
@@ -581,6 +683,56 @@ async function evaluateSubmission(runtime: IAgentRuntime, allPostsContent: strin
         console.log("Evaluation results saved to evaluation_result.json");
         
         await writeToLog(`Evaluation completed: Score ${evaluationResult.overallScore}, Qualifies: ${evaluationResult.qualifiesForBounty}`);
+        
+        // Thêm log chi tiết nếu điểm > 7.0 và có submissionData
+        if (evaluationResult.overallScore > 7.0 && submissionData && submissionData.walletAddress) {
+          console.log("\n=== PARTICIPANT QUALIFICATION DETAILS ===");
+          console.log(`Wallet Address: ${submissionData.walletAddress}`);
+          console.log(`Score: ${evaluationResult.overallScore}`);
+          console.log(`Bounty ID: ${submissionData.bountyId || 'Not specified'}`);
+          console.log(`Qualification Status: QUALIFIED (Score > 7.0)`);
+          console.log("=== END OF QUALIFICATION DETAILS ===\n");
+          
+          try {
+            console.log(`\n>>> CALLING participateInBounty(${submissionData.walletAddress}, ${evaluationResult.overallScore}, ${submissionData.bountyId || 'Not specified'}) <<<\n`);
+            
+            // Thêm người tham gia vào bounty
+            await participateInBounty(
+              submissionData.walletAddress,
+              evaluationResult.overallScore,
+              submissionData.bountyId
+            );
+            
+            console.log(`\n>>> SUCCESSFULLY ADDED PARTICIPANT <<<`);
+            console.log(`- Wallet: ${submissionData.walletAddress}`);
+            console.log(`- Score: ${evaluationResult.overallScore}`);
+            console.log(`- Bounty: ${submissionData.bountyId}`);
+            
+            // Thêm thông tin tham gia vào kết quả
+            evaluationResult.participationStatus = {
+              success: true,
+              message: "Participant added to bounty successfully",
+              walletAddress: submissionData.walletAddress,
+              score: evaluationResult.overallScore,
+              bountyId: submissionData.bountyId
+            };
+          } catch (error) {
+            console.error(`\n>>> ERROR ADDING PARTICIPANT <<<`);
+            console.error(`- Wallet: ${submissionData.walletAddress}`);
+            console.error(`- Score: ${evaluationResult.overallScore}`);
+            console.error(`- Bounty: ${submissionData.bountyId}`);
+            console.error(`- Error: ${error.message}`);
+            
+            // Thêm thông tin lỗi vào kết quả
+            evaluationResult.participationStatus = {
+              success: false,
+              message: `Error: ${error.message}`,
+              walletAddress: submissionData.walletAddress,
+              score: evaluationResult.overallScore,
+              bountyId: submissionData.bountyId
+            };
+          }
+        }
         
         return evaluationResult;
       } else {
@@ -713,8 +865,83 @@ async function processSubmissionEvaluation(runtime: IAgentRuntime, bountyId: str
         runtime,
         pinataData.allPostsContent,
         submissionData.submission,
-        pinataData.criteria
+        pinataData.criteria,
+        submissionData
       );
+      
+      // Kiểm tra điểm số và thêm người tham gia vào bounty nếu đủ điều kiện
+      if (evaluationResult.overallScore > 7.0) {
+        console.log(`\n=== SUBMISSION QUALIFIED FOR BOUNTY (Score: ${evaluationResult.overallScore}) ===`);
+        console.log(`Adding participant to bounty: ${bountyId}`);
+        await writeToLog(`Submission qualified for bounty with score ${evaluationResult.overallScore}`);
+        
+        try {
+          // Kiểm tra xem có wallet address không
+          if (!submissionData.walletAddress) {
+            console.log("Warning: No wallet address found in submission data");
+            await writeToLog("No wallet address found in submission data");
+          } else {
+            // Gọi hàm participateInBounty để thêm người tham gia
+            console.log(`\n>>> CALLING participateInBounty WITH PARAMETERS <<<`);
+            console.log(`- Wallet Address: ${submissionData.walletAddress}`);
+            console.log(`- Score: ${evaluationResult.overallScore}`);
+            console.log(`- Bounty ID: ${bountyId}`);
+            
+            await writeToLog(`Adding wallet ${submissionData.walletAddress} to bounty ${bountyId} with score ${evaluationResult.overallScore}`);
+            
+            // Gọi hàm participateInBounty mà không lưu kết quả trả về
+            await participateInBounty(
+              submissionData.walletAddress,
+              evaluationResult.overallScore,
+              bountyId
+            );
+            
+            console.log(`\n>>> PARTICIPANT SUCCESSFULLY ADDED <<<`);
+            console.log(`- Wallet: ${submissionData.walletAddress}`);
+            console.log(`- Score: ${evaluationResult.overallScore}`);
+            console.log(`- Bounty: ${bountyId}`);
+            await writeToLog("Participant added successfully to bounty");
+            
+            // Thêm thông tin tham gia vào kết quả
+            evaluationResult.participationStatus = {
+              success: true,
+              message: "Participant added to bounty successfully",
+              walletAddress: submissionData.walletAddress,
+              score: evaluationResult.overallScore,
+              bountyId: bountyId
+            };
+          }
+        } catch (participationError) {
+          console.error(`\n>>> ERROR ADDING PARTICIPANT <<<`);
+          console.error(`- Wallet: ${submissionData.walletAddress}`);
+          console.error(`- Score: ${evaluationResult.overallScore}`);
+          console.error(`- Bounty: ${bountyId}`);
+          console.error(`- Error: ${participationError.message}`);
+          
+          await writeToLog(`Error adding participant to bounty: ${participationError.message}`);
+          
+          // Thêm thông tin lỗi vào kết quả
+          evaluationResult.participationStatus = {
+            success: false,
+            message: `Error adding participant to bounty: ${participationError.message}`,
+            walletAddress: submissionData.walletAddress,
+            score: evaluationResult.overallScore,
+            bountyId: bountyId
+          };
+        }
+      } else {
+        console.log(`\n=== SUBMISSION DID NOT QUALIFY FOR BOUNTY (Score: ${evaluationResult.overallScore}) ===`);
+        console.log("Minimum required score is 7.0/10");
+        await writeToLog(`Submission did not qualify for bounty with score ${evaluationResult.overallScore}`);
+        
+        // Thêm thông tin không đủ điều kiện vào kết quả
+        evaluationResult.participationStatus = {
+          success: false,
+          message: "Score below qualification threshold (7.0/10)",
+          score: evaluationResult.overallScore,
+          bountyId: bountyId
+        };
+      }
       
       // Tạo kết quả tổng hợp
       const result = {
@@ -738,6 +965,7 @@ async function processSubmissionEvaluation(runtime: IAgentRuntime, bountyId: str
       console.log(`Submission by: ${submissionData.author || 'Unknown'}`);
       console.log(`Overall Score: ${evaluationResult.overallScore}/10`);
       console.log(`Qualifies for Bounty: ${evaluationResult.qualifiesForBounty ? 'YES' : 'NO'}`);
+      console.log(`Added to Bounty: ${evaluationResult.participationStatus?.success ? 'YES' : 'NO'}`);
       console.log(`Summary: ${evaluationResult.summary}`);
       console.log("=== END OF EVALUATION SUMMARY ===\n");
       
@@ -810,7 +1038,7 @@ export default {
                     bountyId = bountyIdMatch[1].trim();
                 } else {
                     // Nếu không tìm thấy ID, sử dụng ID mặc định hoặc yêu cầu người dùng cung cấp
-                    bountyId = "Qmcon4cz7v5dsaVHiSGpnaGU3Y9uVKrEQ2AYjW9NBRcwdt"; // ID mặc định cho mục đích demo
+                    bountyId = "QmWSCo3nbstRD97wSdjJx6Nt2saBRMEQKfeeYFDWpgabpg"; // Hash mới
                     console.log("No bounty ID found in message, using default ID for demo purposes");
                     await writeToLog("No bounty ID found, using default ID");
                 }

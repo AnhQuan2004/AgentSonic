@@ -4,7 +4,7 @@ import * as fs from 'fs/promises';
 // Function to fetch data from Pinata using a provided hash
 export async function fetchPinataData() {
   try {
-    const pinataHash = "QmPsq38epeMvPfmQChGrhEPk45ZwoVZrvToBzN5yRM3rE2";
+    const pinataHash = "QmWSCo3nbstRD97wSdjJx6Nt2saBRMEQKfeeYFDWpgabpg";
     
     console.log(`Fetching data for pinataHash: ${pinataHash}`);
     

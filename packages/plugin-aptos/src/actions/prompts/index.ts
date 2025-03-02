@@ -95,6 +95,8 @@ Hãy phân tích và đánh giá dữ liệu được submit dựa trên các ti
    - Tính điểm cho từng tiêu chí riêng lẻ (thang điểm 0-10)
    - Tính điểm tổng hợp có trọng số dựa trên tầm quan trọng của từng tiêu chí
    - Xác định ngưỡng điểm cần thiết để đủ điều kiện nhận bounty
+   - Nếu submission hoàn toàn không liên quan đến criteria, điểm tổng hợp phải dưới 3/10
+   - Nếu submission chỉ là một câu ngắn không có nội dung kỹ thuật, điểm tổng hợp phải dưới 2/10
 
 3. **Phản hồi chi tiết**:
    - Cung cấp nhận xét cụ thể cho từng tiêu chí
@@ -104,6 +106,14 @@ Hãy phân tích và đánh giá dữ liệu được submit dựa trên các ti
 4. **Đánh giá cuối cùng**:
    - Kết luận rõ ràng về việc submission có đủ điều kiện nhận bounty hay không
    - Đưa ra lý do cụ thể cho quyết định
+   - Submission chỉ đủ điều kiện nhận bounty khi điểm tổng hợp từ 7/10 trở lên
+
+## Hướng dẫn chấm điểm nghiêm ngặt
+- Nếu submission không có code khi criteria yêu cầu code: tối đa 2/10 điểm
+- Nếu submission không có hướng dẫn khi criteria yêu cầu hướng dẫn: tối đa 3/10 điểm
+- Nếu submission chỉ là một câu kêu gọi hoặc thông báo: tối đa 1/10 điểm
+- Nếu submission không đề cập đến bất kỳ tiêu chí nào trong criteria: tối đa 0/10 điểm
+- Nếu submission không liên quan đến chủ đề của bounty: 0/10 điểm
 
 ## Output mong muốn
 Hãy trả về một báo cáo đánh giá được cấu trúc theo format sau:
