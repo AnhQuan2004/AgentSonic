@@ -206,3 +206,23 @@ export const quizGenPrompt = (textContent: string) => {
     `;
 }
 
+export const getAllPostsPrompt = (textContent: string, datapost: string) => {
+    return `
+        Based on the request: "${textContent}"
+        Format these posts into a clear table structure: "${datapost}"
+
+        Create a well-organized table with the following format:
+
+        ### Posts Overview Table
+
+        | No. | Author | Post Content 
+        |-----|---------|-------------|
+        [Insert rows here with post data]
+
+        Formatting Rules:
+        1. Number each post sequentially
+        2. Truncate long post content to first 100 characters and add "..." if needed
+        3. Maximum 20 posts per page
+    `;
+}
+

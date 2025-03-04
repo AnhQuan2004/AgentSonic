@@ -1,6 +1,6 @@
 import { OpenAIEmbeddings } from '@langchain/openai';
 import { Action, ActionExample, Memory, IAgentRuntime, State, HandlerCallback, generateText, ModelClass, elizaLogger, RAGKnowledgeItem } from "@elizaos/core";
-import { analyzePostPrompt } from "./prompts";
+import { analyzePostPrompt, getAllPostsPrompt } from "./prompts";
 import { ChatDataAction } from "./enum";
 import * as fs from 'fs/promises';
 import * as path from 'path';
@@ -119,7 +119,9 @@ export default {
     name: "DATA_INSIGHT",
     similes: [
         "insight data", "what is the data", "show me the data purpose",
-        "give me insights", "data insight", "what is author post", "give me author post", "what post about", "`what post about author`"
+        "give me insights", "data insight", "what is author post", "give me author post", 
+        "what post about", "`what post about author`", "give me all of the posts", 
+        "show all posts", "list all posts", "display all posts"
     ],
     description: "Insight data from all collected data",
 
@@ -172,6 +174,45 @@ export default {
                 }));
             }).flat().filter(post => post.text && post.text.length > 0);
 
+            // Check if this is a request for all posts
+            const isAllPostsRequest = message.content.text.toLowerCase().includes('all') && 
+                                    message.content.text.toLowerCase().includes('post');
+
+            if (isAllPostsRequest) {
+                await writeToLog("Processing all posts request...");
+                // Sort posts by timestamp
+                const sortedPosts = processedPosts.sort((a, b) => 
+                    new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+                );
+
+                const context = JSON.stringify(sortedPosts);
+                const response = await generateText({
+                    runtime,
+                    context: getAllPostsPrompt(message.content.text, context),
+                    modelClass: ModelClass.SMALL,
+                    stop: ["\n\n\n"],
+                });
+
+                callback?.({
+                    text: response.trim(),
+                    action: ChatDataAction.INSIGHT_DATA,
+                    params: {
+                        label: "All Posts Table",
+                        allPosts: sortedPosts.slice(0, 20).map((post, index) => ({
+                            no: index + 1,
+                            authorFullname: post.authorFullname,
+                            text: post.text,
+                            // timestamp: post.timestamp
+                        })),
+                        totalPosts: processedPosts.length,
+                        uniqueAuthors: new Set(processedPosts.map(p => p.authorFullname)).size
+                    }
+                });
+                await writeToLog("All posts table generated successfully");
+                return;
+            }
+
+            // Original insight logic for other queries
             // Filter and group posts
             const filteredPosts = filterLongPosts(processedPosts);
             const groupedPosts = groupPostsById(filteredPosts);
@@ -215,7 +256,7 @@ export default {
             const response = await generateText({
                 runtime,
                 context: analyzePostPrompt(message.content.text, context),
-                modelClass: ModelClass.MEDIUM,
+                modelClass: ModelClass.SMALL,
                 stop: ["\n"],
             });
             await writeToLog("Completed text response generation");
