@@ -1,4 +1,3 @@
-
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -6,6 +5,7 @@ import path from "path";
 import fs from "fs";
 import { getFolderByUserAddress } from "./tusky";
 import {getFilesByParentId} from "./tusky";
+import { getAllData } from './pinata';
 
 import {
     type AgentRuntime,
@@ -109,33 +109,25 @@ export function createApiRouter(
         res.header("Access-Control-Allow-Headers", "Content-Type");
     
         try {
-            const parentId = String(req.query.parentId || "45c6c728-6e0d-4260-8c2e-1bb25d285874");
-            
-            // 🔥 Lấy dữ liệu từ database
-            let rawData = await getFilesByParentId(parentId);
+            let rawData = await getAllData();
     
-            if (!rawData || typeof rawData === "string") {
-                throw new Error('No valid data found');
+            if (!rawData || !Array.isArray(rawData) || rawData.length === 0) {
+                throw new Error('No valid data found from Pinata');
             }
     
-            // 🔥 Chuyển dữ liệu về dạng chuẩn
             const authorCounts = {};
-            const formattedData = rawData.flatMap(item => {
-                const dataArray = Array.isArray(item.data) ? item.data : [item.data];
-                return dataArray.map(tweet => {
-                    const author = tweet.authorFullname || "anonymous";
-                    authorCounts[author] = (authorCounts[author] || 0) + 1;
+            const formattedData = rawData.map(tweet => {
+                const author = tweet.authorFullname || "anonymous";
+                authorCounts[author] = (authorCounts[author] || 0) + 1;
     
-                    return {
-                        id: `${author}_${authorCounts[author]}`,
-                        authorFullname: author,
-                        text: tweet.text,
-                        url: tweet.url
-                    };
-                });
+                return {
+                    id: `${author}_${authorCounts[author]}`,
+                    authorFullname: author,
+                    text: tweet.text,
+                    url: tweet.url
+                };
             });
     
-            // 🔥 Xây dựng prompt AI
             const aiPrompt = `
 🔹 🔹 **Mục tiêu**
 - Chuyển danh sách bài đăng thành một mạng lưới gồm **nodes** (bài đăng, từ khóa quan trọng) và **edges** (mối quan hệ giữa chúng).
@@ -192,13 +184,11 @@ ${JSON.stringify(formattedData, null, 2)}
 - Giữ định dạng JSON chuẩn để có thể lưu vào file và sử dụng trực tiếp.
 `;
     
-            // 🔥 Gọi Gemini API
             const aiResponse = await callGemini(aiPrompt);
     
             if (typeof aiResponse === 'string') {
                 const graphData = JSON.parse(aiResponse);
                 
-                // Map content and url to post nodes
                 const contentMap = formattedData.reduce((map, item) => {
                     map[item.id] = {
                         text: item.text || "",

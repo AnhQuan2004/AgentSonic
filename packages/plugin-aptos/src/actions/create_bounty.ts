@@ -4,7 +4,6 @@ import { analyzePostPrompt, generateBountyPrompt } from "./prompts";
 import { CreateBountyAction } from "./enum";
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { getFolderByUserAddress } from '../services/tusky';
 import { getFilesByParentId } from '../services/tusky';
 import axios from 'axios';
 // Import bounty functions
@@ -16,6 +15,7 @@ import { uploadToPinata} from '../services/pinata';
 // Pinata configuration
 const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyYjZjM2ExZS1lNGFmLTRjZjQtYjI4Ny1jNWU4ODAwMDJlZmYiLCJlbWFpbCI6ImFuaHF1YW4yMDA0MTQ1MkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYjZlMmYxNmEzMjE4M2IxZDViNGIiLCJzY29wZWRLZXlTZWNyZXQiOiJmYTVhNTNkMzMxNDAwMzQyNGM1ZTZmOGM3ZWE2YzEwZmZkMjU5NmNiMGM3Yjg5MDE3ODQyZWI1ZDZiYWYxOGVkIiwiZXhwIjoxNzcyMzY0NTAzfQ.LxehNth0tAwf75IPsXLULDKrW0RDyeH03cChLt-5xPw";
 const PINATA_GATEWAY = "teal-geographical-stork-778.mypinata.cloud";
+import { getAllData } from '../services/get_data';
 
 // Utility function to write logs to file
 async function writeToLog(message: string) {
@@ -435,37 +435,32 @@ export default {
                 const criteria = extractCriteria(message.content.text);
                 await writeToLog(`Extracted ${criteria.length} criteria from user input`);
 
-                const parentId = (options.parentId as string) || "45c6c728-6e0d-4260-8c2e-1bb25d285874";
-                
+                // Thay thế phần lấy rawData cũ bằng getAllData
                 let rawData;
                 const maxRetries = 3;
                 for (let i = 0; i < maxRetries; i++) {
                     try {
-                        rawData = await getFilesByParentId(parentId);
-                        await writeToLog(`Successfully retrieved data on attempt ${i + 1}`);
+                        rawData = await getAllData();
+                        await writeToLog(`Successfully retrieved data from Pinata on attempt ${i + 1}`);
                         break;
                     } catch (error) {
-                        await writeToLog(`Failed attempt ${i + 1} to get data: ${error.message}`);
+                        await writeToLog(`Failed attempt ${i + 1} to get data from Pinata: ${error.message}`);
                         if (i === maxRetries - 1) throw error;
                         await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
                     }
                 }
 
-                if (!rawData || typeof rawData === "string") {
-                    await writeToLog('No valid data found');
-                    throw new Error('No valid data found');
+                if (!rawData || !Array.isArray(rawData) || rawData.length === 0) {
+                    await writeToLog('No valid data found from Pinata');
+                    throw new Error('No valid data found from Pinata');
                 }
 
                 // Process raw data into structured format
-                const processedPosts = rawData.map((item: any) => {
-                    const data = item.data;
-                    const items = Array.isArray(data) ? data : [data];
-                    return items.map(d => ({
-                        authorFullname: d.authorFullname || 'Unknown',
-                        text: d.text || '',
-                        timestamp: d.timestamp || item.timestamp || new Date().toISOString()
-                    }));
-                }).flat().filter(post => post.text && post.text.length > 0);
+                const processedPosts = rawData.map((item: any) => ({
+                    authorFullname: item.authorFullname || 'Unknown',
+                    text: item.text || '',
+                    timestamp: item.createdAt || new Date().toISOString()
+                })).filter(post => post.text && post.text.length > 0);
 
                 // Filter and group posts
                 const filteredPosts = filterLongPosts(processedPosts);

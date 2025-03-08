@@ -12,7 +12,7 @@
         "ragKnowledge": true
     },
     "plugins": [
-        "@elizaos/plugin-sui"
+        "@elizaos/plugin-aptos"
     ],
     "bio": [
         "Providing expert insights into Move blockchain",

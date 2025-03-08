@@ -10,7 +10,7 @@
     "cleanstart": "if [ -f agent/data/db.sqlite ]; then rm agent/data/db.sqlite; fi && pnpm --filter \"@elizaos/agent\" start --isRoot",
     "cleanstart:debug": "if [ -f agent/data/db.sqlite ]; then rm agent/data/db.sqlite; fi && cross-env NODE_ENV=development VERBOSE=true DEFAULT_LOG_LEVEL=debug DEBUG=eliza:* pnpm --filter \"@elizaos/agent\" start --isRoot",
     "start": "pnpm --filter \"@elizaos/agent\" start --isRoot",
-    "reset": "pnpm build && pnpm start:debug --characters=\"./characters/suiHelper.character.json\"",
+    "reset": "pnpm build && pnpm start:debug --characters=\"./characters/aptosAgent.character.json\"",
     "build:plugin-sui": "cd packages/plugin-sui && pnpm build",
     "publish:plugin-sui": "pnpm build:plugin-sui && cd packages/plugin-sui && pnpm publish --access public --no-git-checks",
     "start:client": "pnpm --dir client dev",

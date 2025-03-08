@@ -4,8 +4,7 @@ import { analyzePostPrompt, getAllPostsPrompt } from "./prompts";
 import { ChatDataAction, GiveInsightDataAction } from "./enum";
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { getFolderByUserAddress } from '../services/tusky';
-import { getFilesByParentId } from '../services/tusky';
+import { getAllData } from '../services/get_data';
 
 // Utility function to write logs to file
 async function writeToLog(message: string) {
@@ -142,37 +141,31 @@ export default {
         try {
             await writeToLog("Starting DATA_INSIGHT analysis...");
 
-            const parentId = (options.parentId as string) || "45c6c728-6e0d-4260-8c2e-1bb25d285874";
-            
             let rawData;
             const maxRetries = 3;
             for (let i = 0; i < maxRetries; i++) {
                 try {
-                    rawData = await getFilesByParentId(parentId);
-                    await writeToLog(`Successfully retrieved data on attempt ${i + 1}`);
+                    rawData = await getAllData();
+                    await writeToLog(`Successfully retrieved data from Pinata on attempt ${i + 1}`);
                     break;
                 } catch (error) {
-                    await writeToLog(`Failed attempt ${i + 1} to get data: ${error.message}`);
+                    await writeToLog(`Failed attempt ${i + 1} to get data from Pinata: ${error.message}`);
                     if (i === maxRetries - 1) throw error;
                     await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
                 }
             }
 
-            if (!rawData || typeof rawData === "string") {
-                await writeToLog('No valid data found');
-                throw new Error('No valid data found');
+            if (!rawData || !Array.isArray(rawData) || rawData.length === 0) {
+                await writeToLog('No valid data found from Pinata');
+                throw new Error('No valid data found from Pinata');
             }
 
             // Process raw data into structured format
-            const processedPosts = rawData.map((item: any) => {
-                const data = item.data;
-                const items = Array.isArray(data) ? data : [data];
-                return items.map(d => ({
-                    authorFullname: d.authorFullname || 'Unknown',
-                    text: d.text || '',
-                    timestamp: d.timestamp || item.timestamp || new Date().toISOString()
-                }));
-            }).flat().filter(post => post.text && post.text.length > 0);
+            const processedPosts = rawData.map((item: any) => ({
+                authorFullname: item.authorFullname || 'Unknown',
+                text: item.text || '',
+                timestamp: item.createdAt || new Date().toISOString()
+            })).filter(post => post.text && post.text.length > 0);
 
             // Check if this is a request for all posts
             const isAllPostsRequest = message.content.text.toLowerCase().includes('all') && 
