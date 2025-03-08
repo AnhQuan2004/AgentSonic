@@ -194,20 +194,53 @@ async function checkBountyIdExists(bountyId: string) {
   }
 }
 
+// Add this function to extract deadline from user query
+const extractDeadline = (text: string): number => {
+    // Look for deadline in various formats
+    const deadlineMatch = text.toLowerCase().match(/deadline:?\s*(\d+)\s*(day|days|week|weeks)/i);
+    
+    if (deadlineMatch) {
+        const amount = parseInt(deadlineMatch[1]);
+        const unit = deadlineMatch[2].toLowerCase();
+        
+        // Convert to seconds
+        if (unit.startsWith('week')) {
+            return amount * 7 * 24 * 60 * 60;
+        } else {
+            return amount * 24 * 60 * 60;
+        }
+    }
+    
+    // Default to 7 days in seconds
+    return 7 * 24 * 60 * 60;
+};
 
+// Add this utility function for date formatting
+const formatDate = (timestamp: number): string => {
+    const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+};
+
+// Modify the createBountyPools function
 const createBountyPools = async (
     runtime: IAgentRuntime,
     posts: Array<ProcessedPost & { similarity: number }>,
-    criteria: string[]
+    criteria: string[],
+    queryText: string // Add this parameter
 ): Promise<any> => {
     try {
         // ✅ Tính điểm trung bình của tất cả các bài viết
         const avgSimilarity = posts.reduce((sum, post) => sum + (post.similarity || 0), 0) / posts.length;
         
         // ✅ Tính toán các tham số dựa trên điểm trung bình
-        const stakingAmount = Math.round(avgSimilarity * 1000); // Số tiền stake dựa trên điểm tương đồng
-        const minimumOfUser = Math.max(2, Math.round(avgSimilarity * 5)); // Số người tối thiểu
-        const expireTime = Math.round(avgSimilarity * 10 * 24 * 60 * 60); // Thời gian hết hạn (tính bằng giây)
+        const stakingAmount = Math.round(avgSimilarity * 1000);
+        const minimumOfUser = Math.max(2, Math.round(avgSimilarity * 5));
+        
+        // ✅ Get expireTime from query or use default
+        const expireTime = extractDeadline(queryText);
 
         // ✅ Tạo một bounty ID duy nhất
         const bountyId = `bounty_${Date.now()}`;
@@ -432,7 +465,7 @@ export default {
                 
                 // Create bounty pools from all posts
                 await writeToLog("Creating bounty pools from all posts...");
-                const bountyResult = await createBountyPools(runtime, rankedPosts, criteria);
+                const bountyResult = await createBountyPools(runtime, rankedPosts, criteria, message.content.text);
                 await writeToLog(`Created bounty with ID: ${bountyResult?.bountyId || 'unknown'}`);
                 
                 // Get top posts for response generation (keeping this part for backward compatibility)
@@ -462,7 +495,13 @@ export default {
                             text: post.text,
                             similarity: post.similarity
                         })),
-                        bountyResult: bountyResult,
+                        bountyResult: {
+                            ...bountyResult,
+                            // Format the expireTime as dd/MM/yyyy
+                            formattedDeadline: formatDate(Date.now()/1000 + bountyResult.expireTime),
+                            // Keep the original expireTime for other uses
+                            expireTime: bountyResult.expireTime
+                        },
                         pinataHash: bountyResult?.pinataHash,
                         criteria: criteria && criteria.length > 0 ? criteria : ["No specific criteria provided"]
                     }
