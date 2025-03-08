@@ -8,14 +8,11 @@ import { getFolderByUserAddress } from '../services/tusky';
 import { getFilesByParentId } from '../services/tusky';
 import axios from 'axios';
 // Import bounty functions
-import { createBounty, participateInBounty, get_all_bounties, get_bounties_by_creator, get_bounty_by_id } from '../services/bounty';
+import { createBounty} from '../services/bounty';
 // Sử dụng service Pinata mới
-import { uploadToPinata, getFromPinata } from '../services/pinata';
+import { uploadToPinata} from '../services/pinata';
 // Import the fetchPinataData function
-import { fetchPinataData } from './get_pinata_data';
-// Import PinataSDK
-// import PinataSDK from '@pinata/sdk';
-
+// import { fetchPinataData } from './get_pinata_data';
 // Pinata configuration
 const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyYjZjM2ExZS1lNGFmLTRjZjQtYjI4Ny1jNWU4ODAwMDJlZmYiLCJlbWFpbCI6ImFuaHF1YW4yMDA0MTQ1MkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYjZlMmYxNmEzMjE4M2IxZDViNGIiLCJzY29wZWRLZXlTZWNyZXQiOiJmYTVhNTNkMzMxNDAwMzQyNGM1ZTZmOGM3ZWE2YzEwZmZkMjU5NmNiMGM3Yjg5MDE3ODQyZWI1ZDZiYWYxOGVkIiwiZXhwIjoxNzcyMzY0NTAzfQ.LxehNth0tAwf75IPsXLULDKrW0RDyeH03cChLt-5xPw";
 const PINATA_GATEWAY = "teal-geographical-stork-778.mypinata.cloud";
@@ -197,164 +194,69 @@ async function checkBountyIdExists(bountyId: string) {
   }
 }
 
-// Tích hợp chức năng từ get_submit_data.ts
-async function fetchSubmitData() {
-  try {
-    const pinataHash = "QmPsq38epeMvPfmQChGrhEPk45ZwoVZrvToBzN5yRM3rE2"; // Hash mới
-    
-    console.log(`\n=== FETCHING SUBMISSION DATA ===`);
-    console.log(`Fetching submission data for pinataHash: ${pinataHash}`);
-    await writeToLog(`Fetching submission data for pinataHash: ${pinataHash}`);
-    
-    // Call the getFromPinata function with the provided hash
-    const result = await getFromPinata(pinataHash);
-    
-    if (result.success) {
-      console.log("Submission data retrieved successfully from Pinata");
-      await writeToLog("Submission data retrieved successfully from Pinata");
-      
-      // Extract only needed fields
-      const submissionData = {
-        author: result.data.author,
-        bountyId: result.data.bountyId,
-        submission: result.data.submission,
-        walletAddress: result.data.walletAddress,
-        uploadTime: result.data.uploadTime
-      };
 
-      console.log("--- Retrieved Submission Data ---");
-      console.log(JSON.stringify(submissionData, null, 2));
-      await writeToLog(`Retrieved submission data: ${JSON.stringify(submissionData)}`);
-
-      // Kiểm tra xem bounty ID có tồn tại trong danh sách đã lưu không
-      if (submissionData.bountyId) {
-        const bountyExists = await checkBountyIdExists(submissionData.bountyId);
-        submissionData['bountyExists'] = bountyExists;
-        console.log(`Submission bounty ID "${submissionData.bountyId}" exists in our records: ${bountyExists ? 'YES' : 'NO'}`);
-        await writeToLog(`Submission bounty ID "${submissionData.bountyId}" exists in our records: ${bountyExists ? 'YES' : 'NO'}`);
-      }
-
-      // Save data to file for reference
-      await fs.writeFile('submission_data.json', JSON.stringify(submissionData, null, 2));
-      console.log("Submission data saved to submission_data.json");
-      console.log(`=== END OF SUBMISSION DATA ===\n`);
-
-      return submissionData;
-    } else {
-      console.error("Failed to retrieve submission data:", result.message);
-      await writeToLog(`Failed to retrieve submission data: ${result.message}`);
-      throw new Error(result.message);
-    }
-  } catch (error) {
-    console.error("Error retrieving submission data:", error);
-    await writeToLog(`Error retrieving submission data: ${error.message}`);
-    throw error;
-  }
-}
-
-// Tích hợp chức năng từ check_verify.ts
-async function checkAndVerify(pinataHash: string, submissionData: any) {
-  try {
-    console.log("=== STARTING VERIFICATION PROCESS ===");
-    await writeToLog("=== STARTING VERIFICATION PROCESS ===");
-    
-    // Sử dụng dữ liệu submission đã có
-    console.log("\n[1] Using existing submission data");
-    await writeToLog("Using existing submission data");
-    
-    console.log("\n[2] Fetching pinata data with provided hash...");
-    await writeToLog(`Fetching pinata data with hash: ${pinataHash}`);
-    
+const createBountyPools = async (
+    runtime: IAgentRuntime,
+    posts: Array<ProcessedPost & { similarity: number }>,
+    criteria: string[]
+): Promise<any> => {
     try {
-      // Lấy dữ liệu từ Pinata với hash được cung cấp
-      const pinataData = await fetchPinataData(pinataHash);
-      
-      // So sánh dữ liệu
-      console.log("\n=== VERIFICATION RESULTS ===");
-      console.log("Submission Data:");
-      console.log(JSON.stringify(submissionData, null, 2));
-      
-      console.log("\nPinata Data (key fields):");
-      const pinataKeyData = {
-        bountyId: pinataData.bountyId || 'Not available',
-        criteria: pinataData.criteria || 'Not available',
-        contentSummary: pinataData.allPostsContent ? 
-          `${pinataData.allPostsContent.substring(0, 100)}...` : 
-          'Not available'
-      };
-      console.log(JSON.stringify(pinataKeyData, null, 2));
-      
-      // Kiểm tra các trường khớp nhau
-      console.log("\nField Comparison:");
-      if (submissionData.bountyId && pinataData.bountyId) {
-        console.log(`Bounty ID Match: ${submissionData.bountyId === pinataData.bountyId ? 'YES' : 'NO'}`);
-      }
-      
-      if (submissionData.author && pinataData.author) {
-        console.log(`Author Match: ${submissionData.author === pinataData.author ? 'YES' : 'NO'}`);
-      }
-      
-      // Lưu kết quả kết hợp vào file
-      const combinedResults = {
-        timestamp: new Date().toISOString(),
-        submissionData,
-        pinataData: pinataKeyData,
-        fullPinataData: pinataData
-      };
-      
-      await fs.writeFile('verification_results.json', JSON.stringify(combinedResults, null, 2));
-      console.log("\nVerification results saved to verification_results.json");
-      await writeToLog("Verification results saved to verification_results.json");
-      
-      return combinedResults;
-    } catch (error) {
-      console.log(`\nWarning: Could not verify with Pinata hash. Error: ${error.message}`);
-      await writeToLog(`Warning: Could not verify with Pinata hash. Error: ${error.message}`);
-      
-      // Nếu không thể xác minh với hash Pinata, vẫn trả về dữ liệu submission
-      return {
-        timestamp: new Date().toISOString(),
-        submissionData,
-        pinataData: null,
-        error: error.message
-      };
-    }
-  } catch (error) {
-    console.error("Verification process failed:", error);
-    await writeToLog(`Verification process failed: ${error.message}`);
-    throw error;
-  }
-}
-
-// Thay đổi hàm createBountyPools để chỉ tạo một bounty duy nhất và gộp dữ liệu
-const createBountyPools = async (runtime: IAgentRuntime, posts: Array<ProcessedPost & { similarity: number }>, criteria: string[]): Promise<any> => {
-    try {
-        // Tính điểm trung bình của tất cả các bài viết
+        // ✅ Tính điểm trung bình của tất cả các bài viết
         const avgSimilarity = posts.reduce((sum, post) => sum + (post.similarity || 0), 0) / posts.length;
         
-        // Tính toán các tham số dựa trên điểm trung bình
+        // ✅ Tính toán các tham số dựa trên điểm trung bình
         const stakingAmount = Math.round(avgSimilarity * 1000); // Số tiền stake dựa trên điểm tương đồng
         const minimumOfUser = Math.max(2, Math.round(avgSimilarity * 5)); // Số người tối thiểu
         const expireTime = Math.round(avgSimilarity * 10 * 24 * 60 * 60); // Thời gian hết hạn (tính bằng giây)
-        
-        // Tạo một bounty ID duy nhất
+
+        // ✅ Tạo một bounty ID duy nhất
         const bountyId = `bounty_${Date.now()}`;
-        const transaction = await createBounty(bountyId, stakingAmount, minimumOfUser, expireTime);
         
-        // Check if transaction exists and has a hash
-        const transactionHash = transaction && 'hash' in transaction ? transaction.hash : null;
-        
-        // Gộp tất cả nội dung bài viết thành một đoạn văn
+        // ✅ Gộp tất cả nội dung bài viết thành một đoạn văn
         const allPostsContent = posts.map(post => {
             return `Author: ${post.authorFullname}\n${post.originalTexts.join('\n')}`;
         }).join('\n\n');
-        
-        // Thêm thông tin về các tác giả có liên quan
+
+        // ✅ Thêm thông tin về các tác giả có liên quan
         const relatedAuthors = [...new Set(posts.map(post => post.authorFullname))];
-        
-        // Tạo kết quả bounty với đầy đủ thông tin
-        const bountyResult: any = {
+
+        // ✅ Chuẩn bị dữ liệu để đẩy lên Pinata
+        const pinataData = {
             bountyId,
+            allPostsContent,
+            criteria: criteria && criteria.length > 0 ? criteria : ["No specific criteria provided"]
+        };
+
+        console.log("\n=== UPLOADING DATA TO PINATA ===");
+        console.log("Uploading bounty data to Pinata...");
+        await writeToLog("Uploading bounty data to Pinata...");
+        
+        // ✅ Đẩy dữ liệu lên Pinata
+        const pinataResult = await uploadToPinata(pinataData);
+
+        // ✅ Kiểm tra xem có hash Pinata hay không
+        const dataRefer = pinataResult.IpfsHash || null; // 🆕 Lấy hash từ Pinata để làm `dataRefer`
+        console.log(`Upload successful! Pinata hash: ${dataRefer || 'unknown'}`);
+        await writeToLog(`Uploaded to Pinata, hash: ${dataRefer || 'unknown'}`);
+
+        // ✅ Gọi hàm `createBounty` với tham số bổ sung `dataRefer`
+        console.log(`\n=== CREATING BOUNTY ON APTOS ===`);
+        console.log(`Calling createBounty with dataRefer = ${dataRefer}`);
+        const transaction = await createBounty(
+            dataRefer || "",  
+            bountyId,
+            stakingAmount,
+            minimumOfUser,
+            expireTime
+        );
+
+        // ✅ Check if transaction exists and has a hash
+        const transactionHash = transaction && 'hash' in transaction ? transaction.hash : null;
+
+        // ✅ Tạo kết quả bounty với đầy đủ thông tin
+        const bountyResult: any = {
+            bountyId: bountyId, // ✅ Đảo lại giá trị
+            dataRefer: dataRefer, // ✅ Đảo lại giá trị
             transactionHash,
             stakingAmount,
             minimumOfUser,
@@ -363,202 +265,24 @@ const createBountyPools = async (runtime: IAgentRuntime, posts: Array<ProcessedP
             avgSimilarity,
             relatedAuthors,
             allPostsContent,
-            criteria
+            criteria,
+            pinataHash: dataRefer,
+            pinataUrl: pinataResult.url || null
         };
-        
-        // Lưu bounty ID vào file
+        // ✅ Lưu bounty ID vào file
         await saveBountyId(bountyId);
-        
-        // Upload to Pinata using the new service
-        const pinataData = {
-            bountyId,
-            allPostsContent,
-            criteria: criteria && criteria.length > 0 ? criteria : ["No specific criteria provided"]
-        };
-        
-        console.log("\n=== UPLOADING DATA TO PINATA ===");
-        console.log("Uploading bounty data to Pinata...");
-        await writeToLog("Uploading bounty data to Pinata...");
-        
-        const pinataResult = await uploadToPinata(pinataData);
-        
-        // Add Pinata information to the result
-        bountyResult.pinataHash = pinataResult.IpfsHash || null;
-        bountyResult.pinataUrl = pinataResult.url || null;
-        
-        console.log(`Upload successful! Pinata hash: ${pinataResult.IpfsHash || 'unknown'}`);
-        await writeToLog(`Created single bounty: ${bountyId}, Transaction hash: ${transactionHash || 'unknown'}, Pinata hash: ${pinataResult.IpfsHash || 'unknown'}`);
-        
-        // Immediately fetch the data from Pinata to verify it was stored correctly
-        if (pinataResult.IpfsHash) {
-            try {
-                console.log(`\n=== FETCHING PINATA DATA ===`);
-                console.log(`Fetching data for newly created pinataHash: ${pinataResult.IpfsHash}`);
-                await writeToLog(`Fetching data for newly created pinataHash: ${pinataResult.IpfsHash}`);
-                
-                const fetchedData = await fetchPinataData(pinataResult.IpfsHash);
-                
-                console.log("Pinata data retrieved successfully!");
-                console.log("--- Retrieved Pinata Data ---");
-                console.log(JSON.stringify({
-                    bountyId: fetchedData.bountyId || 'Not available',
-                    criteria: fetchedData.criteria || 'Not available',
-                    contentPreview: fetchedData.allPostsContent ? 
-                        `${fetchedData.allPostsContent.substring(0, 200)}...` : 
-                        'Not available'
-                }, null, 2));
-                
-                await writeToLog(`Successfully verified Pinata data for hash: ${pinataResult.IpfsHash}`);
-                
-                // Add the fetched data to the result for verification
-                bountyResult.verifiedPinataData = fetchedData;
-                console.log(`=== END OF PINATA DATA ===\n`);
-                
-                // Lấy dữ liệu submission từ hash cứng
-                try {
-                    const submissionData = await fetchSubmitData();
-                    
-                    // Thêm dữ liệu submission vào kết quả
-                    bountyResult.submissionData = submissionData;
-                    
-                    // In ra cả hai loại dữ liệu để so sánh
-                    console.log("\n=== COMPARISON OF BOTH DATA SOURCES ===");
-                    console.log("1. Bounty Data (newly created):");
-                    console.log(`   - Bounty ID: ${bountyResult.bountyId}`);
-                    console.log(`   - Pinata Hash: ${bountyResult.pinataHash}`);
-                    
-                    console.log("\n2. Submission Data (from hardcoded hash):");
-                    console.log(`   - Author: ${submissionData.author}`);
-                    console.log(`   - Bounty ID: ${submissionData.bountyId}`);
-                    console.log(`   - Wallet Address: ${submissionData.walletAddress}`);
-                    console.log(`   - Upload Time: ${submissionData.uploadTime}`);
-                    
-                    // Thêm thông tin về việc bounty ID có tồn tại trong danh sách không
-                    if ('bountyExists' in submissionData) {
-                        console.log(`   - Bounty ID exists in records: ${submissionData.bountyExists ? 'YES' : 'NO'}`);
-                    }
-                    
-                    console.log("\n=== END OF COMPARISON ===");
-                    await writeToLog("Completed data retrieval from both sources");
-                    
-                    // Thực hiện đánh giá tự động nếu có đủ dữ liệu
-                    if (fetchedData.allPostsContent && submissionData.submission && fetchedData.criteria) {
-                        console.log("\nStarting automated evaluation of submission...");
-                        await writeToLog("Starting automated evaluation of submission");
-                        
-                        // In thêm thông tin chi tiết về dữ liệu trước khi đánh giá
-                        console.log("\n=== PRE-EVALUATION DATA CHECK ===");
-                        console.log(`All Posts Content Length: ${fetchedData.allPostsContent.length} characters`);
-                        console.log(`Submission Data Length: ${submissionData.submission.length} characters`);
-                        console.log(`Number of Criteria: ${fetchedData.criteria.length}`);
-                        console.log("=== END OF PRE-EVALUATION DATA CHECK ===\n");
-                        await writeToLog(`Pre-evaluation check: Content length: ${fetchedData.allPostsContent.length}, Submission length: ${submissionData.submission.length}, Criteria count: ${fetchedData.criteria.length}`);
-                        
-                        const evaluationResult = await evaluateSubmission(
-                            runtime,
-                            fetchedData.allPostsContent,
-                            submissionData.submission,
-                            fetchedData.criteria,
-                            submissionData
-                        );
-                        
-                        // Thêm kết quả đánh giá vào bountyResult
-                        bountyResult.evaluationResult = evaluationResult;
-                        
-                        console.log("\n=== EVALUATION SUMMARY ===");
-                        console.log(`Overall Score: ${evaluationResult.overallScore}/10`);
-                        console.log(`Qualifies for Bounty: ${evaluationResult.qualifiesForBounty ? 'YES' : 'NO'}`);
-                        
-                        // Kiểm tra xem đã thêm người tham gia vào bounty chưa
-                        if (evaluationResult.participationStatus) {
-                            console.log(`Added to Bounty: ${evaluationResult.participationStatus.success ? 'YES' : 'NO'}`);
-                            if (evaluationResult.participationStatus.success) {
-                                console.log(`Wallet Address: ${evaluationResult.participationStatus.walletAddress}`);
-                                console.log(`Score: ${evaluationResult.participationStatus.score}`);
-                            } else {
-                                console.log(`Reason: ${evaluationResult.participationStatus.message}`);
-                            }
-                        }
-                        
-                        console.log(`Summary: ${evaluationResult.summary}`);
-                        console.log("=== END OF EVALUATION SUMMARY ===\n");
-                        
-                        // Nếu điểm > 7.0 và chưa được thêm vào bounty (trong trường hợp evaluateSubmission không thực hiện)
-                        if (evaluationResult.overallScore > 7.0 && !evaluationResult.participationStatus && submissionData.walletAddress) {
-                            console.log(`\n=== ADDING PARTICIPANT TO BOUNTY (Score: ${evaluationResult.overallScore}) ===`);
-                            console.log(`\n>>> CALLING participateInBounty FROM createBountyPools <<<`);
-                            console.log(`- Wallet Address: ${submissionData.walletAddress}`);
-                            console.log(`- Score: ${evaluationResult.overallScore}`);
-                            console.log(`- Bounty ID: ${bountyId}`);
-                            
-                            try {
-                                // Gọi hàm participateInBounty mà không lưu kết quả trả về
-                                await participateInBounty(
-                                    submissionData.walletAddress,
-                                    evaluationResult.overallScore,
-                                    bountyId
-                                );
-                                
-                                console.log(`\n>>> PARTICIPANT SUCCESSFULLY ADDED FROM createBountyPools <<<`);
-                                console.log(`- Wallet: ${submissionData.walletAddress}`);
-                                console.log(`- Score: ${evaluationResult.overallScore}`);
-                                console.log(`- Bounty: ${bountyId}`);
-                                
-                                await writeToLog(`Added participant ${submissionData.walletAddress} to bounty ${bountyId} with score ${evaluationResult.overallScore}`);
-                                
-                                // Thêm thông tin tham gia vào kết quả
-                                evaluationResult.participationStatus = {
-                                    success: true,
-                                    message: "Participant added to bounty successfully",
-                                    walletAddress: submissionData.walletAddress,
-                                    score: evaluationResult.overallScore,
-                                    bountyId: bountyId
-                                };
-                            } catch (error) {
-                                console.error(`\n>>> ERROR ADDING PARTICIPANT FROM createBountyPools <<<`);
-                                console.error(`- Wallet: ${submissionData.walletAddress}`);
-                                console.error(`- Score: ${evaluationResult.overallScore}`);
-                                console.error(`- Bounty: ${bountyId}`);
-                                console.error(`- Error: ${error.message}`);
-                                
-                                await writeToLog(`Error adding participant to bounty: ${error.message}`);
-                                
-                                // Thêm thông tin lỗi vào kết quả
-                                evaluationResult.participationStatus = {
-                                    success: false,
-                                    message: `Error: ${error.message}`,
-                                    walletAddress: submissionData.walletAddress,
-                                    score: evaluationResult.overallScore,
-                                    bountyId: bountyId
-                                };
-                            }
-                        }
-                    } else {
-                        console.log("\nSkipping automated evaluation due to missing data");
-                        await writeToLog("Skipping automated evaluation due to missing data");
-                        
-                        if (!fetchedData.allPostsContent) console.log("Missing: allPostsContent");
-                        if (!submissionData.submission) console.log("Missing: submission data");
-                        if (!fetchedData.criteria) console.log("Missing: criteria");
-                    }
-                } catch (submitError) {
-                    console.error("Warning: Could not fetch submission data:", submitError.message);
-                    await writeToLog(`Warning: Could not fetch submission data: ${submitError.message}`);
-                    // Continue even if submission data fetch fails
-                }
-            } catch (error) {
-                console.error("Warning: Could not verify Pinata data:", error.message);
-                await writeToLog(`Warning: Could not verify Pinata data: ${error.message}`);
-                // Continue even if verification fails
-            }
-        }
-        
+
+        console.log(`Created bounty with ID: ${bountyId}, Transaction hash: ${transactionHash || 'unknown'}`);
+        await writeToLog(`Created bounty with ID: ${bountyId}, Transaction hash: ${transactionHash || 'unknown'}, Pinata hash: ${dataRefer || 'unknown'}`);
+
         return bountyResult;
     } catch (error) {
+        console.error("❌ Error creating bounty:", error);
         await writeToLog(`Error creating bounty: ${error.message}`);
         return null;
     }
 };
+
 
 // Hàm phân tích input của người dùng để trích xuất các tiêu chí
 const extractCriteria = (text: string): string[] => {
@@ -576,423 +300,6 @@ const extractCriteria = (text: string): string[] => {
     
     return lines;
 };
-
-// Xóa phần định nghĩa prompt cũ và cập nhật hàm evaluateSubmission
-async function evaluateSubmission(runtime: IAgentRuntime, allPostsContent: string, submission: string, criteria: string[], submissionData?: any) {
-  try {
-    console.log("\n=== STARTING AUTOMATED EVALUATION ===");
-    await writeToLog("Starting automated evaluation of submission");
-    
-    // In ra các input đầu vào để kiểm tra
-    console.log("\n=== EVALUATION INPUTS ===");
-    console.log("1. All Posts Content (first 200 chars):");
-    console.log(allPostsContent.substring(0, 200) + "...");
-    console.log("\n2. Submission Data:");
-    console.log(submission);
-    console.log("\n3. Criteria:");
-    console.log(JSON.stringify(criteria, null, 2));
-    
-    // Phân tích sơ bộ về mức độ liên quan (CHỈ DÙNG CHO MỤC ĐÍCH THÔNG TIN)
-    console.log("\n=== PRELIMINARY ANALYSIS (FOR INFORMATION ONLY) ===");
-    console.log("Note: This analysis is purely informational and will NOT affect the model's evaluation");
-    
-    // Kiểm tra độ dài của submission
-    console.log(`Submission length: ${submission.length} characters`);
-    if (submission.length < 100) {
-      console.log("INFO: Submission is very short");
-    }
-    
-    // Kiểm tra xem submission có chứa từ khóa liên quan đến criteria không
-    let keywordMatches = 0;
-    const keywordsToCheck = ['code', 'implementation', 'contract', 'function', 'deploy', 'test', 'token', 'move', 'aptos'];
-    const submissionLower = submission.toLowerCase();
-    
-    console.log("Keyword presence (informational only):");
-    keywordsToCheck.forEach(keyword => {
-      const contains = submissionLower.includes(keyword);
-      console.log(`- Contains "${keyword}": ${contains ? 'YES' : 'NO'}`);
-      if (contains) keywordMatches++;
-    });
-    
-    console.log(`Total technical keywords found: ${keywordMatches}/${keywordsToCheck.length}`);
-    
-    // Kiểm tra xem submission có chứa code không
-    const codePatterns = ['{', '}', 'function', 'struct', 'module', 'public', 'script', '#[test]'];
-    const containsCode = codePatterns.some(pattern => submissionLower.includes(pattern));
-    console.log(`Contains code patterns: ${containsCode ? 'YES' : 'NO'}`);
-    
-    console.log("=== END OF PRELIMINARY ANALYSIS ===");
-    console.log("=== END OF EVALUATION INPUTS ===\n");
-    
-    // Lưu các input vào file để kiểm tra chi tiết
-    await fs.writeFile('evaluation_inputs.json', JSON.stringify({
-      allPostsContent,
-      submission,
-      criteria,
-      preliminaryAnalysis: {
-        submissionLength: submission.length,
-        keywordMatches,
-        containsCode,
-        note: "This analysis is purely informational and does not affect the model's evaluation"
-      }
-    }, null, 2));
-    console.log("Evaluation inputs saved to evaluation_inputs.json for detailed inspection");
-    await writeToLog("Saved evaluation inputs to evaluation_inputs.json");
-    
-    // Sử dụng prompt từ file prompts/index.ts
-    const filledPrompt = evaluateSubmissionPrompt(
-      allPostsContent,
-      submission,
-      JSON.stringify(criteria)
-    );
-    
-    console.log("Evaluating submission against criteria...");
-    await writeToLog("Evaluating submission against criteria");
-    
-    // Gọi model để đánh giá - ĐÂY LÀ PHẦN QUYẾT ĐỊNH CUỐI CÙNG
-    console.log("Sending evaluation request to model - model will make the final decision");
-    const evaluationResponse = await generateText({
-      runtime,
-      context: filledPrompt,
-      modelClass: ModelClass.LARGE, // Sử dụng model lớn để có kết quả tốt hơn
-      stop: [],
-    });
-    
-    console.log("Evaluation completed by model");
-    
-    // Cố gắng parse kết quả JSON từ phản hồi
-    try {
-      // Tìm phần JSON trong phản hồi
-      const jsonMatch = evaluationResponse.match(/```json\s*([\s\S]*?)\s*```/) || 
-                        evaluationResponse.match(/{[\s\S]*}/);
-      
-      if (jsonMatch) {
-        const jsonString = jsonMatch[1] || jsonMatch[0];
-        const evaluationResult = JSON.parse(jsonString);
-        
-        console.log("\n=== EVALUATION RESULTS (DETERMINED BY MODEL) ===");
-        console.log(`Overall Score: ${evaluationResult.overallScore}/10`);
-        console.log(`Qualifies for Bounty: ${evaluationResult.qualifiesForBounty ? 'YES' : 'NO'}`);
-        console.log(`Summary: ${evaluationResult.summary}`);
-        console.log("\nDetailed Feedback:");
-        console.log(evaluationResult.detailedFeedback);
-        console.log("=== END OF EVALUATION ===\n");
-        
-        // Lưu kết quả đánh giá vào file
-        await fs.writeFile('evaluation_result.json', JSON.stringify(evaluationResult, null, 2));
-        console.log("Evaluation results saved to evaluation_result.json");
-        
-        await writeToLog(`Evaluation completed: Score ${evaluationResult.overallScore}, Qualifies: ${evaluationResult.qualifiesForBounty}`);
-        
-        // Thêm log chi tiết nếu điểm > 7.0 và có submissionData
-        if (evaluationResult.overallScore > 7.0 && submissionData && submissionData.walletAddress) {
-          console.log("\n=== PARTICIPANT QUALIFICATION DETAILS ===");
-          console.log(`Wallet Address: ${submissionData.walletAddress}`);
-          console.log(`Score: ${evaluationResult.overallScore}`);
-          console.log(`Bounty ID: ${submissionData.bountyId || 'Not specified'}`);
-          console.log(`Qualification Status: QUALIFIED (Score > 7.0)`);
-          console.log("=== END OF QUALIFICATION DETAILS ===\n");
-          
-          try {
-            console.log(`\n>>> CALLING participateInBounty(${submissionData.walletAddress}, ${evaluationResult.overallScore}, ${submissionData.bountyId || 'Not specified'}) <<<\n`);
-            
-            // Thêm người tham gia vào bounty
-            await participateInBounty(
-              submissionData.walletAddress,
-              evaluationResult.overallScore,
-              submissionData.bountyId
-            );
-            
-            console.log(`\n>>> SUCCESSFULLY ADDED PARTICIPANT <<<`);
-            console.log(`- Wallet: ${submissionData.walletAddress}`);
-            console.log(`- Score: ${evaluationResult.overallScore}`);
-            console.log(`- Bounty: ${submissionData.bountyId}`);
-            
-            // Thêm thông tin tham gia vào kết quả
-            evaluationResult.participationStatus = {
-              success: true,
-              message: "Participant added to bounty successfully",
-              walletAddress: submissionData.walletAddress,
-              score: evaluationResult.overallScore,
-              bountyId: submissionData.bountyId
-            };
-          } catch (error) {
-            console.error(`\n>>> ERROR ADDING PARTICIPANT <<<`);
-            console.error(`- Wallet: ${submissionData.walletAddress}`);
-            console.error(`- Score: ${evaluationResult.overallScore}`);
-            console.error(`- Bounty: ${submissionData.bountyId}`);
-            console.error(`- Error: ${error.message}`);
-            
-            // Thêm thông tin lỗi vào kết quả
-            evaluationResult.participationStatus = {
-              success: false,
-              message: `Error: ${error.message}`,
-              walletAddress: submissionData.walletAddress,
-              score: evaluationResult.overallScore,
-              bountyId: submissionData.bountyId
-            };
-          }
-        }
-        
-        return evaluationResult;
-      } else {
-        console.log("Could not extract JSON from evaluation response. Raw response:");
-        console.log(evaluationResponse);
-        
-        // Trả về kết quả dạng text nếu không parse được JSON
-        const fallbackResult = {
-          overallScore: 0,
-          qualifiesForBounty: false,
-          summary: "Could not parse evaluation result",
-          detailedFeedback: evaluationResponse
-        };
-        
-        await fs.writeFile('evaluation_result.txt', evaluationResponse);
-        console.log("Raw evaluation response saved to evaluation_result.txt");
-        
-        await writeToLog("Could not parse evaluation result as JSON");
-        
-        return fallbackResult;
-      }
-    } catch (parseError) {
-      console.error("Error parsing evaluation result:", parseError);
-      await writeToLog(`Error parsing evaluation result: ${parseError.message}`);
-      
-      // Trả về kết quả dạng text nếu không parse được JSON
-      const fallbackResult = {
-        overallScore: 0,
-        qualifiesForBounty: false,
-        summary: "Error parsing evaluation result",
-        detailedFeedback: evaluationResponse
-      };
-      
-      await fs.writeFile('evaluation_result.txt', evaluationResponse);
-      console.log("Raw evaluation response saved to evaluation_result.txt");
-      
-      return fallbackResult;
-    }
-  } catch (error) {
-    console.error("Error during evaluation:", error);
-    await writeToLog(`Error during evaluation: ${error.message}`);
-    
-    return {
-      overallScore: 0,
-      qualifiesForBounty: false,
-      summary: "Evaluation process failed",
-      detailedFeedback: `Error: ${error.message}`
-    };
-  }
-}
-
-// Hàm mới để xử lý việc đánh giá submission độc lập với việc tạo bounty
-async function processSubmissionEvaluation(runtime: IAgentRuntime, bountyId: string): Promise<any> {
-  try {
-    console.log(`\n=== PROCESSING SUBMISSION EVALUATION FOR BOUNTY ID: ${bountyId} ===`);
-    await writeToLog(`Processing submission evaluation for bounty ID: ${bountyId}`);
-    
-    // Kiểm tra xem bounty ID có tồn tại không
-    const bountyExists = await checkBountyIdExists(bountyId);
-    if (!bountyExists) {
-      console.log(`Warning: Bounty ID "${bountyId}" does not exist in our records`);
-      await writeToLog(`Warning: Bounty ID "${bountyId}" does not exist in our records`);
-      // Vẫn tiếp tục vì có thể bounty được tạo ở nơi khác
-    } else {
-      console.log(`Bounty ID "${bountyId}" exists in our records`);
-      await writeToLog(`Bounty ID "${bountyId}" exists in our records`);
-    }
-    
-    // Lấy dữ liệu từ Pinata cho bounty này
-    console.log(`\nFetching Pinata data for bounty ID: ${bountyId}`);
-    await writeToLog(`Fetching Pinata data for bounty ID: ${bountyId}`);
-    
-    // Tìm hash Pinata từ bounty ID
-    // Trong trường hợp thực tế, bạn có thể cần một cơ chế để map bounty ID với Pinata hash
-    // Ở đây chúng ta giả định rằng bounty ID chính là hash hoặc có thể lấy từ một nguồn dữ liệu khác
-    let pinataHash = bountyId;
-    
-    try {
-      const pinataData = await fetchPinataData(pinataHash);
-      console.log("Pinata data retrieved successfully!");
-      
-      // Lấy dữ liệu submission
-      console.log("\nFetching submission data...");
-      await writeToLog("Fetching submission data");
-      
-      const submissionData = await fetchSubmitData();
-      
-      // Kiểm tra xem submission có phải cho bounty này không
-      if (submissionData.bountyId !== bountyId) {
-        console.log(`Warning: Submission is for bounty ID "${submissionData.bountyId}", not for requested bounty ID "${bountyId}"`);
-        await writeToLog(`Warning: Submission is for different bounty ID: ${submissionData.bountyId}`);
-        // Vẫn tiếp tục vì chúng ta đang đánh giá submission này
-      }
-      
-      // Kiểm tra dữ liệu trước khi đánh giá
-      console.log("\n=== PRE-EVALUATION DATA CHECK ===");
-      console.log(`All Posts Content Length: ${pinataData.allPostsContent ? pinataData.allPostsContent.length : 'N/A'} characters`);
-      console.log(`Submission Data Length: ${submissionData.submission ? submissionData.submission.length : 'N/A'} characters`);
-      console.log(`Number of Criteria: ${pinataData.criteria ? pinataData.criteria.length : 'N/A'}`);
-      console.log("=== END OF PRE-EVALUATION DATA CHECK ===\n");
-      
-      // Kiểm tra xem có đủ dữ liệu để đánh giá không
-      if (!pinataData.allPostsContent || !submissionData.submission || !pinataData.criteria) {
-        console.log("Missing required data for evaluation:");
-        if (!pinataData.allPostsContent) console.log("- Missing: allPostsContent");
-        if (!submissionData.submission) console.log("- Missing: submission data");
-        if (!pinataData.criteria) console.log("- Missing: criteria");
-        
-        await writeToLog("Missing required data for evaluation");
-        
-        return {
-          success: false,
-          message: "Missing required data for evaluation",
-          bountyId,
-          bountyExists,
-          submissionData,
-          pinataData: {
-            bountyId: pinataData.bountyId || 'Not available',
-            hasContent: !!pinataData.allPostsContent,
-            hasCriteria: !!pinataData.criteria
-          }
-        };
-      }
-      
-      // Thực hiện đánh giá
-      console.log("\nStarting evaluation...");
-      await writeToLog("Starting evaluation");
-      
-      const evaluationResult = await evaluateSubmission(
-        runtime,
-        pinataData.allPostsContent,
-        submissionData.submission,
-        pinataData.criteria,
-        submissionData
-      );
-      
-      // Kiểm tra điểm số và thêm người tham gia vào bounty nếu đủ điều kiện
-      if (evaluationResult.overallScore > 7.0) {
-        console.log(`\n=== SUBMISSION QUALIFIED FOR BOUNTY (Score: ${evaluationResult.overallScore}) ===`);
-        console.log(`Adding participant to bounty: ${bountyId}`);
-        await writeToLog(`Submission qualified for bounty with score ${evaluationResult.overallScore}`);
-        
-        try {
-          // Kiểm tra xem có wallet address không
-          if (!submissionData.walletAddress) {
-            console.log("Warning: No wallet address found in submission data");
-            await writeToLog("No wallet address found in submission data");
-          } else {
-            // Gọi hàm participateInBounty để thêm người tham gia
-            console.log(`\n>>> CALLING participateInBounty WITH PARAMETERS <<<`);
-            console.log(`- Wallet Address: ${submissionData.walletAddress}`);
-            console.log(`- Score: ${evaluationResult.overallScore}`);
-            console.log(`- Bounty ID: ${bountyId}`);
-            
-            await writeToLog(`Adding wallet ${submissionData.walletAddress} to bounty ${bountyId} with score ${evaluationResult.overallScore}`);
-            
-            // Gọi hàm participateInBounty mà không lưu kết quả trả về
-            await participateInBounty(
-              submissionData.walletAddress,
-              evaluationResult.overallScore,
-              bountyId
-            );
-            
-            console.log(`\n>>> PARTICIPANT SUCCESSFULLY ADDED <<<`);
-            console.log(`- Wallet: ${submissionData.walletAddress}`);
-            console.log(`- Score: ${evaluationResult.overallScore}`);
-            console.log(`- Bounty: ${bountyId}`);
-            await writeToLog("Participant added successfully to bounty");
-            
-            // Thêm thông tin tham gia vào kết quả
-            evaluationResult.participationStatus = {
-              success: true,
-              message: "Participant added to bounty successfully",
-              walletAddress: submissionData.walletAddress,
-              score: evaluationResult.overallScore,
-              bountyId: bountyId
-            };
-          }
-        } catch (participationError) {
-          console.error(`\n>>> ERROR ADDING PARTICIPANT <<<`);
-          console.error(`- Wallet: ${submissionData.walletAddress}`);
-          console.error(`- Score: ${evaluationResult.overallScore}`);
-          console.error(`- Bounty: ${bountyId}`);
-          console.error(`- Error: ${participationError.message}`);
-          
-          await writeToLog(`Error adding participant to bounty: ${participationError.message}`);
-          
-          // Thêm thông tin lỗi vào kết quả
-          evaluationResult.participationStatus = {
-            success: false,
-            message: `Error adding participant to bounty: ${participationError.message}`,
-            walletAddress: submissionData.walletAddress,
-            score: evaluationResult.overallScore,
-            bountyId: bountyId
-          };
-        }
-      } else {
-        console.log(`\n=== SUBMISSION DID NOT QUALIFY FOR BOUNTY (Score: ${evaluationResult.overallScore}) ===`);
-        console.log("Minimum required score is 7.0/10");
-        await writeToLog(`Submission did not qualify for bounty with score ${evaluationResult.overallScore}`);
-        
-        // Thêm thông tin không đủ điều kiện vào kết quả
-        evaluationResult.participationStatus = {
-          success: false,
-          message: "Score below qualification threshold (7.0/10)",
-          score: evaluationResult.overallScore,
-          bountyId: bountyId
-        };
-      }
-      
-      // Tạo kết quả tổng hợp
-      const result = {
-        success: true,
-        bountyId,
-        bountyExists,
-        submissionData,
-        pinataData: {
-          bountyId: pinataData.bountyId || 'Not available',
-          criteria: pinataData.criteria || []
-        },
-        evaluationResult
-      };
-      
-      // Lưu kết quả tổng hợp
-      await fs.writeFile(`evaluation_result_${bountyId}.json`, JSON.stringify(result, null, 2));
-      console.log(`Evaluation results saved to evaluation_result_${bountyId}.json`);
-      
-      console.log("\n=== EVALUATION SUMMARY ===");
-      console.log(`Bounty ID: ${bountyId}`);
-      console.log(`Submission by: ${submissionData.author || 'Unknown'}`);
-      console.log(`Overall Score: ${evaluationResult.overallScore}/10`);
-      console.log(`Qualifies for Bounty: ${evaluationResult.qualifiesForBounty ? 'YES' : 'NO'}`);
-      console.log(`Added to Bounty: ${evaluationResult.participationStatus?.success ? 'YES' : 'NO'}`);
-      console.log(`Summary: ${evaluationResult.summary}`);
-      console.log("=== END OF EVALUATION SUMMARY ===\n");
-      
-      return result;
-      
-    } catch (error) {
-      console.error(`Error processing submission evaluation: ${error.message}`);
-      await writeToLog(`Error processing submission evaluation: ${error.message}`);
-      
-      return {
-        success: false,
-        message: `Error: ${error.message}`,
-        bountyId,
-        bountyExists
-      };
-    }
-  } catch (error) {
-    console.error(`Error in processSubmissionEvaluation: ${error.message}`);
-    await writeToLog(`Error in processSubmissionEvaluation: ${error.message}`);
-    
-    return {
-      success: false,
-      message: `Error: ${error.message}`,
-      bountyId
-    };
-  }
-}
 
 export default {
     name: "CREATE_BOUNTY",
@@ -1044,20 +351,7 @@ export default {
                 }
                 
                 console.log(`Processing evaluation for bounty ID: ${bountyId}`);
-                
-                // Xử lý đánh giá
-                const evaluationResult = await processSubmissionEvaluation(runtime, bountyId);
-                
-                // Gửi kết quả
-                await writeToLog("Sending evaluation results to callback");
-                callback?.({
-                    text: `Evaluation completed for bounty ID: ${bountyId}`,
-                    action: CreateBountyAction.CREATE_BOUNTY,
-                    params: {
-                        label: `Submission evaluation for bounty: ${bountyId}`,
-                        evaluationResult: evaluationResult
-                    }
-                });
+
                 
                 await writeToLog("Submission evaluation completed successfully");
                 
@@ -1170,9 +464,6 @@ export default {
                         })),
                         bountyResult: bountyResult,
                         pinataHash: bountyResult?.pinataHash,
-                        pinataData: bountyResult?.verifiedPinataData || null,
-                        submissionData: bountyResult?.submissionData || null,
-                        evaluationResult: bountyResult?.evaluationResult || null,
                         criteria: criteria && criteria.length > 0 ? criteria : ["No specific criteria provided"]
                     }
                 });

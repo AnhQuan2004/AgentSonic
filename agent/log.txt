@@ -1193,3 +1193,218 @@ Submit test cases that validate the functionality of the contract (e.g., token m
 [2025-03-04T09:17:29.791Z] Completed text response generation
 [2025-03-04T09:17:29.792Z] Sending response to callback...
 [2025-03-04T09:17:29.793Z] DATA_INSIGHT analysis completed successfully
+[2025-03-07T15:47:42.750Z] Starting action with message: creaete bounty for hackathon AI
+[2025-03-07T15:47:42.752Z] Processing bounty creation request
+[2025-03-07T15:47:42.753Z] Extracted 0 criteria from user input
+[2025-03-07T15:47:45.424Z] Successfully retrieved data on attempt 1
+[2025-03-07T15:47:45.425Z] Processed 62 posts
+[2025-03-07T15:47:45.426Z] Filtered to 48 posts
+[2025-03-07T15:47:45.426Z] Grouped into 33 author groups
+[2025-03-07T15:47:45.427Z] Starting embeddings generation...
+[2025-03-07T15:47:48.166Z] Completed post embeddings generation
+[2025-03-07T15:47:48.175Z] Starting query embedding generation...
+[2025-03-07T15:47:51.742Z] Completed query embedding generation
+[2025-03-07T15:47:51.743Z] Starting post ranking...
+[2025-03-07T15:47:51.748Z] Creating bounty pools from all posts...
+[2025-03-07T15:47:53.444Z] Bounty ID "bounty_1741362471749" saved to bounty_id.txt
+[2025-03-07T15:47:53.445Z] Uploading bounty data to Pinata...
+[2025-03-07T15:47:55.391Z] Created single bounty: bounty_1741362471749, Transaction hash: 0xf66db4135bafdb6c72f9f02b849f39ab07cf0e1cf9abe157588eaf58f218d23f, Pinata hash: QmaXEjeZKcHqJPSDjrDQhFCt6oChWp35eprGgMAN89t77V
+[2025-03-07T15:47:55.392Z] Fetching data for newly created pinataHash: QmaXEjeZKcHqJPSDjrDQhFCt6oChWp35eprGgMAN89t77V
+[2025-03-07T15:48:00.955Z] Successfully verified Pinata data for hash: QmaXEjeZKcHqJPSDjrDQhFCt6oChWp35eprGgMAN89t77V
+[2025-03-07T15:48:00.955Z] Fetching submission data for pinataHash: QmPsq38epeMvPfmQChGrhEPk45ZwoVZrvToBzN5yRM3rE2
+[2025-03-07T15:48:02.893Z] Submission data retrieved successfully from Pinata
+[2025-03-07T15:48:02.893Z] Retrieved submission data: {"author":"MoveDeveloper","bountyId":"bounty_1740848118434","submission":"I've just completed my implementation of a fungible token standard for Aptos. The code is fully written in Move and features comprehensive token management capabilities including minting, burning, and transferring with permission controls.\n\nThe implementation includes detailed comments for each function explaining its purpose, security considerations, and potential edge cases. For example, the transfer function includes checks to prevent common vulnerabilities like reentrancy and overflow/underflow issues.\n\nI've created a step-by-step deployment guide that walks through:\n1. Setting up the Aptos CLI\n2. Configuring your development environment\n3. Compiling the Move module\n4. Deploying to Aptos testnet\n5. Verifying the deployment\n\nAdditionally, I've included a comprehensive test suite with 15 test cases covering all functionality including:\n- Basic token minting\n- Transfer mechanics\n- Burning operations\n- Permission management\n- Error handling scenarios\n\nThe code is available at github.com/movedeveloper/aptos-token-standard with full documentation. I've also deployed a live example on Aptos testnet that you can interact with at 0x1a2b3c4d5e6f.","walletAddress":"0x1234567890abcdef1234567890abcdef12345678","uploadTime":"2025-03-01T16:57:35.225Z"}
+[2025-03-07T15:48:02.894Z] Checking if bounty ID "bounty_1740848118434" exists: YES
+[2025-03-07T15:48:02.895Z] Submission bounty ID "bounty_1740848118434" exists in our records: YES
+[2025-03-07T15:48:02.897Z] Completed data retrieval from both sources
+[2025-03-07T15:48:02.898Z] Starting automated evaluation of submission
+[2025-03-07T15:48:02.898Z] Pre-evaluation check: Content length: 17451, Submission length: 1158, Criteria count: 1
+[2025-03-07T15:48:02.899Z] Starting automated evaluation of submission
+[2025-03-07T15:48:02.901Z] Saved evaluation inputs to evaluation_inputs.json
+[2025-03-07T15:48:02.902Z] Evaluating submission against criteria
+[2025-03-07T15:48:15.709Z] Evaluation completed: Score 8.5, Qualifies: true
+[2025-03-07T15:48:15.712Z] Created bounty with ID: bounty_1741362471749
+[2025-03-07T15:48:15.712Z] Selected top 3 posts for response generation
+[2025-03-07T15:48:15.712Z] Generating text response...
+[2025-03-07T15:48:26.784Z] Completed text response generation
+[2025-03-07T15:48:26.784Z] Sending response to callback...
+[2025-03-07T15:48:26.785Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-07T15:53:51.415Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning)
+[2025-03-07T15:53:51.441Z] Processing bounty creation request
+[2025-03-07T15:53:51.442Z] Extracted 5 criteria from user input
+[2025-03-07T15:53:54.252Z] Successfully retrieved data on attempt 1
+[2025-03-07T15:53:54.254Z] Processed 62 posts
+[2025-03-07T15:53:54.254Z] Filtered to 48 posts
+[2025-03-07T15:53:54.255Z] Grouped into 33 author groups
+[2025-03-07T15:53:54.257Z] Starting embeddings generation...
+[2025-03-07T15:53:56.463Z] Completed post embeddings generation
+[2025-03-07T15:53:56.463Z] Starting query embedding generation...
+[2025-03-07T15:53:57.419Z] Completed query embedding generation
+[2025-03-07T15:53:57.420Z] Starting post ranking...
+[2025-03-07T15:53:57.427Z] Creating bounty pools from all posts...
+[2025-03-07T15:53:59.030Z] Bounty ID "bounty_1741362837430" saved to bounty_id.txt
+[2025-03-07T15:53:59.031Z] Uploading bounty data to Pinata...
+[2025-03-07T15:54:01.135Z] Created single bounty: bounty_1741362837430, Transaction hash: 0x4f5e3afd72d28faa2b1f02eecd606b627844909cad0adeed8814e40fffaa955d, Pinata hash: QmSPv8e37PD8CN1CdE1BsaHF3oAKdaGabdwRrojqjch3xX
+[2025-03-07T15:54:01.136Z] Fetching data for newly created pinataHash: QmSPv8e37PD8CN1CdE1BsaHF3oAKdaGabdwRrojqjch3xX
+[2025-03-07T15:54:07.927Z] Successfully verified Pinata data for hash: QmSPv8e37PD8CN1CdE1BsaHF3oAKdaGabdwRrojqjch3xX
+[2025-03-07T15:54:07.928Z] Fetching submission data for pinataHash: QmPsq38epeMvPfmQChGrhEPk45ZwoVZrvToBzN5yRM3rE2
+[2025-03-07T15:54:10.278Z] Submission data retrieved successfully from Pinata
+[2025-03-07T15:54:10.279Z] Retrieved submission data: {"author":"MoveDeveloper","bountyId":"bounty_1740848118434","submission":"I've just completed my implementation of a fungible token standard for Aptos. The code is fully written in Move and features comprehensive token management capabilities including minting, burning, and transferring with permission controls.\n\nThe implementation includes detailed comments for each function explaining its purpose, security considerations, and potential edge cases. For example, the transfer function includes checks to prevent common vulnerabilities like reentrancy and overflow/underflow issues.\n\nI've created a step-by-step deployment guide that walks through:\n1. Setting up the Aptos CLI\n2. Configuring your development environment\n3. Compiling the Move module\n4. Deploying to Aptos testnet\n5. Verifying the deployment\n\nAdditionally, I've included a comprehensive test suite with 15 test cases covering all functionality including:\n- Basic token minting\n- Transfer mechanics\n- Burning operations\n- Permission management\n- Error handling scenarios\n\nThe code is available at github.com/movedeveloper/aptos-token-standard with full documentation. I've also deployed a live example on Aptos testnet that you can interact with at 0x1a2b3c4d5e6f.","walletAddress":"0x1234567890abcdef1234567890abcdef12345678","uploadTime":"2025-03-01T16:57:35.225Z"}
+[2025-03-07T15:54:10.281Z] Checking if bounty ID "bounty_1740848118434" exists: YES
+[2025-03-07T15:54:10.281Z] Submission bounty ID "bounty_1740848118434" exists in our records: YES
+[2025-03-07T15:54:10.284Z] Completed data retrieval from both sources
+[2025-03-07T15:54:10.285Z] Starting automated evaluation of submission
+[2025-03-07T15:54:10.287Z] Pre-evaluation check: Content length: 17451, Submission length: 1158, Criteria count: 5
+[2025-03-07T15:54:10.291Z] Starting automated evaluation of submission
+[2025-03-07T15:54:10.300Z] Saved evaluation inputs to evaluation_inputs.json
+[2025-03-07T15:54:10.302Z] Evaluating submission against criteria
+[2025-03-07T15:54:21.523Z] Evaluation completed: Score 9.2, Qualifies: true
+[2025-03-07T15:54:21.528Z] Created bounty with ID: bounty_1741362837430
+[2025-03-07T15:54:21.529Z] Selected top 3 posts for response generation
+[2025-03-07T15:54:21.530Z] Generating text response...
+[2025-03-07T15:54:51.604Z] Completed text response generation
+[2025-03-07T15:54:51.605Z] Sending response to callback...
+[2025-03-07T15:54:51.605Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-07T15:58:35.561Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning)
+[2025-03-07T15:58:35.562Z] Processing bounty creation request
+[2025-03-07T15:58:35.563Z] Extracted 5 criteria from user input
+[2025-03-07T15:58:38.441Z] Successfully retrieved data on attempt 1
+[2025-03-07T15:58:42.536Z] Bounty ID "bounty_1741363121186" saved to bounty_id.txt
+[2025-03-07T15:58:42.537Z] Uploading bounty data to Pinata...
+[2025-03-07T15:58:44.590Z] Created single bounty: bounty_1741363121186, Transaction hash: 0xba69e7782f167b0a56bdb9b1761e079a2c37075018be08e4a8b02335d4b06391, Pinata hash: QmTNRkfSd6azfL1XxzTCCCyuC5JUnnFdqWUsnWaFnd66Bh
+[2025-03-07T15:58:44.592Z] Fetching data for newly created pinataHash: QmTNRkfSd6azfL1XxzTCCCyuC5JUnnFdqWUsnWaFnd66Bh
+[2025-03-07T15:58:50.981Z] Successfully verified Pinata data for hash: QmTNRkfSd6azfL1XxzTCCCyuC5JUnnFdqWUsnWaFnd66Bh
+[2025-03-07T15:58:50.983Z] Fetching submission data for pinataHash: QmPsq38epeMvPfmQChGrhEPk45ZwoVZrvToBzN5yRM3rE2
+[2025-03-07T15:58:52.951Z] Submission data retrieved successfully from Pinata
+[2025-03-07T15:58:52.953Z] Retrieved submission data: {"author":"MoveDeveloper","bountyId":"bounty_1740848118434","submission":"I've just completed my implementation of a fungible token standard for Aptos. The code is fully written in Move and features comprehensive token management capabilities including minting, burning, and transferring with permission controls.\n\nThe implementation includes detailed comments for each function explaining its purpose, security considerations, and potential edge cases. For example, the transfer function includes checks to prevent common vulnerabilities like reentrancy and overflow/underflow issues.\n\nI've created a step-by-step deployment guide that walks through:\n1. Setting up the Aptos CLI\n2. Configuring your development environment\n3. Compiling the Move module\n4. Deploying to Aptos testnet\n5. Verifying the deployment\n\nAdditionally, I've included a comprehensive test suite with 15 test cases covering all functionality including:\n- Basic token minting\n- Transfer mechanics\n- Burning operations\n- Permission management\n- Error handling scenarios\n\nThe code is available at github.com/movedeveloper/aptos-token-standard with full documentation. I've also deployed a live example on Aptos testnet that you can interact with at 0x1a2b3c4d5e6f.","walletAddress":"0x1234567890abcdef1234567890abcdef12345678","uploadTime":"2025-03-01T16:57:35.225Z"}
+[2025-03-07T15:58:52.956Z] Checking if bounty ID "bounty_1740848118434" exists: YES
+[2025-03-07T15:58:52.956Z] Submission bounty ID "bounty_1740848118434" exists in our records: YES
+[2025-03-07T15:58:52.960Z] Completed data retrieval from both sources
+[2025-03-07T15:58:52.962Z] Starting automated evaluation of submission
+[2025-03-07T15:58:52.963Z] Pre-evaluation check: Content length: 17451, Submission length: 1158, Criteria count: 5
+[2025-03-07T15:58:52.966Z] Starting automated evaluation of submission
+[2025-03-07T15:58:52.972Z] Saved evaluation inputs to evaluation_inputs.json
+[2025-03-07T15:58:52.976Z] Evaluating submission against criteria
+[2025-03-07T15:59:18.285Z] Evaluation completed: Score 9.2, Qualifies: true
+[2025-03-07T15:59:23.733Z] CREATE_BOUNTY completed successfully
+[2025-03-08T03:49:56.111Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+[2025-03-08T03:49:56.114Z] Processing bounty creation request
+[2025-03-08T03:49:56.115Z] Extracted 5 criteria from user input
+[2025-03-08T03:49:58.629Z] Successfully retrieved data on attempt 1
+[2025-03-08T03:49:58.630Z] Processed 62 posts
+[2025-03-08T03:49:58.631Z] Filtered to 48 posts
+[2025-03-08T03:49:58.631Z] Grouped into 33 author groups
+[2025-03-08T03:49:58.632Z] Starting embeddings generation...
+[2025-03-08T03:50:00.896Z] Completed post embeddings generation
+[2025-03-08T03:50:00.898Z] Starting query embedding generation...
+[2025-03-08T03:50:01.889Z] Completed query embedding generation
+[2025-03-08T03:50:01.890Z] Starting post ranking...
+[2025-03-08T03:50:01.897Z] Creating bounty pools from all posts...
+[2025-03-08T03:50:03.314Z] Bounty ID "bounty_1741405801899" saved to bounty_id.txt
+[2025-03-08T03:50:03.314Z] Uploading bounty data to Pinata...
+[2025-03-08T03:50:05.280Z] Created single bounty: bounty_1741405801899, Transaction hash: 0x350b3aa3ad0733e5bf775cff51ff27eb8f7655f4e659491ad2b87d0049ea3ccc, Pinata hash: QmQDbgYjPhWiYfegvUBLA7JTGFJFn7zeoiXXCtcmM8Y9Dt
+[2025-03-08T03:50:05.281Z] Created bounty with ID: bounty_1741405801899
+[2025-03-08T03:50:05.282Z] Selected top 3 posts for response generation
+[2025-03-08T03:50:05.283Z] Generating text response...
+[2025-03-08T03:50:10.700Z] Completed text response generation
+[2025-03-08T03:50:10.701Z] Sending response to callback...
+[2025-03-08T03:50:10.701Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T04:00:41.721Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+[2025-03-08T04:00:41.723Z] Processing bounty creation request
+[2025-03-08T04:00:41.723Z] Extracted 5 criteria from user input
+[2025-03-08T04:00:44.498Z] Successfully retrieved data on attempt 1
+[2025-03-08T04:00:44.499Z] Processed 62 posts
+[2025-03-08T04:00:44.500Z] Filtered to 48 posts
+[2025-03-08T04:00:44.500Z] Grouped into 33 author groups
+[2025-03-08T04:00:44.500Z] Starting embeddings generation...
+[2025-03-08T04:00:47.167Z] Completed post embeddings generation
+[2025-03-08T04:00:47.177Z] Starting query embedding generation...
+[2025-03-08T04:00:47.581Z] Completed query embedding generation
+[2025-03-08T04:00:47.582Z] Starting post ranking...
+[2025-03-08T04:00:47.587Z] Creating bounty pools from all posts...
+[2025-03-08T04:00:47.588Z] Uploading bounty data to Pinata...
+[2025-03-08T04:00:49.544Z] Uploaded to Pinata, hash: QmZRVbdg4quWcxcoYw5htkrJ1TSRME4tpMwUzNBxmxjpre
+[2025-03-08T04:00:51.760Z] Bounty ID "bounty_1741406447588" saved to bounty_id.txt
+[2025-03-08T04:00:51.761Z] Created bounty with ID: bounty_1741406447588, Transaction hash: 0x22112d484f0aaeb5c88c94410cac11b9f63029d03b64ea69237882c09195f7a4, Pinata hash: QmZRVbdg4quWcxcoYw5htkrJ1TSRME4tpMwUzNBxmxjpre
+[2025-03-08T04:00:51.761Z] Created bounty with ID: bounty_1741406447588
+[2025-03-08T04:00:51.761Z] Selected top 3 posts for response generation
+[2025-03-08T04:00:51.762Z] Generating text response...
+[2025-03-08T04:00:57.046Z] Completed text response generation
+[2025-03-08T04:00:57.046Z] Sending response to callback...
+[2025-03-08T04:00:57.048Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T04:08:45.266Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+[2025-03-08T04:08:45.267Z] Processing bounty creation request
+[2025-03-08T04:08:45.268Z] Extracted 5 criteria from user input
+[2025-03-08T04:08:48.596Z] Successfully retrieved data on attempt 1
+[2025-03-08T04:08:48.597Z] Processed 62 posts
+[2025-03-08T04:08:48.597Z] Filtered to 48 posts
+[2025-03-08T04:08:48.598Z] Grouped into 33 author groups
+[2025-03-08T04:08:48.598Z] Starting embeddings generation...
+[2025-03-08T04:08:50.955Z] Completed post embeddings generation
+[2025-03-08T04:08:50.957Z] Starting query embedding generation...
+[2025-03-08T04:08:51.898Z] Completed query embedding generation
+[2025-03-08T04:08:51.899Z] Starting post ranking...
+[2025-03-08T04:08:51.905Z] Creating bounty pools from all posts...
+[2025-03-08T04:08:51.906Z] Uploading bounty data to Pinata...
+[2025-03-08T04:08:53.870Z] Uploaded to Pinata, hash: QmbjK2HEaq3nwR43BNQisdvdRjPDdgiLkzVqpDXkeS18bo
+[2025-03-08T04:08:55.420Z] Bounty ID "bounty_1741406931906" saved to bounty_id.txt
+[2025-03-08T04:08:55.421Z] Created bounty with ID: bounty_1741406931906, Transaction hash: 0xc8a4f61ecc2d9b6dbac0a7c867ac5d39b79950f99bee4e8e9db170bf99c6ae7d, Pinata hash: QmbjK2HEaq3nwR43BNQisdvdRjPDdgiLkzVqpDXkeS18bo
+[2025-03-08T04:08:55.422Z] Created bounty with ID: QmbjK2HEaq3nwR43BNQisdvdRjPDdgiLkzVqpDXkeS18bo
+[2025-03-08T04:08:55.422Z] Selected top 3 posts for response generation
+[2025-03-08T04:08:55.423Z] Generating text response...
+[2025-03-08T04:09:01.331Z] Completed text response generation
+[2025-03-08T04:09:01.331Z] Sending response to callback...
+[2025-03-08T04:09:01.332Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T04:11:35.983Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+[2025-03-08T04:11:35.984Z] Processing bounty creation request
+[2025-03-08T04:11:35.984Z] Extracted 5 criteria from user input
+[2025-03-08T04:11:39.004Z] Successfully retrieved data on attempt 1
+[2025-03-08T04:11:39.006Z] Processed 62 posts
+[2025-03-08T04:11:39.007Z] Filtered to 48 posts
+[2025-03-08T04:11:39.007Z] Grouped into 33 author groups
+[2025-03-08T04:11:39.008Z] Starting embeddings generation...
+[2025-03-08T04:11:41.305Z] Completed post embeddings generation
+[2025-03-08T04:11:41.306Z] Starting query embedding generation...
+[2025-03-08T04:11:42.148Z] Completed query embedding generation
+[2025-03-08T04:11:42.149Z] Starting post ranking...
+[2025-03-08T04:11:42.156Z] Creating bounty pools from all posts...
+[2025-03-08T04:11:42.158Z] Uploading bounty data to Pinata...
+[2025-03-08T04:11:44.141Z] Uploaded to Pinata, hash: QmWtHfLUKAwHiwcmtj4fTyHT3GZ9ASLpYoNaxfbKV6VZKm
+[2025-03-08T04:11:45.612Z] Bounty ID "bounty_1741407102157" saved to bounty_id.txt
+[2025-03-08T04:11:45.612Z] Created bounty with ID: bounty_1741407102157, Transaction hash: 0xe3eb0bd26326f5c9686de8e55a4194b5321832485e719f55bc35e1c21c473907, Pinata hash: QmWtHfLUKAwHiwcmtj4fTyHT3GZ9ASLpYoNaxfbKV6VZKm
+[2025-03-08T04:11:45.612Z] Created bounty with ID: bounty_1741407102157
+[2025-03-08T04:11:45.612Z] Selected top 3 posts for response generation
+[2025-03-08T04:11:45.613Z] Generating text response...
+[2025-03-08T04:11:51.795Z] Completed text response generation
+[2025-03-08T04:11:51.796Z] Sending response to callback...
+[2025-03-08T04:11:51.797Z] CREATE_BOUNTY analysis completed successfully with bounty
