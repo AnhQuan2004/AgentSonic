@@ -179,3 +179,85 @@ export const quizGenPrompt = (textContent: string) => {
         Correct Answer: [Letter of correct answer]
     `;
 }
+
+
+export const generateBountyPrompt = (textContent: string, datapost: string) => {
+    return `
+        # Prompt: Analyze User Query and Generate Project Details
+Based on the question: "${textContent}"
+Using data posts as knowledge: "${datapost}"
+
+Parse the provided user query related to technical projects, then generate:
+1. A concise, professional title that describes the project goal (NOT the user's request)
+2. A clear, concise project description (2-4 sentences)
+3. A bullet point list of key requirements (4-8 points)
+
+All sections should be presented professionally in a compact format that's easy to scan and understand.
+
+## Processing Workflow:
+1. Carefully read the user query
+2. Identify the core project purpose and technologies
+3. Create a professional title that describes what needs to be built/done (NOT "Create Bounty for...")
+4. Determine the most essential requirements
+5. Create a brief but comprehensive description
+6. List only the most important requirements as bullet points
+
+## Example User Query and Response:
+Query: "create bounty for developing a smart contract on Aptos"
+
+**Title**
+Aptos Smart Contract Development Project
+
+**Description**
+[Brief project overview in 2-4 sentences]
+
+**Requirements**
+[List of key requirements, maximum 5 points]
+- [Requirement 1]
+- [Requirement 2]
+- [Requirement 3]
+- [Requirement 4]
+
+**Tags**
+[Provide 2-4 relevant technical tags, separated by commas.]
+
+## Expected Output Format:
+
+**Title**
+[Create a professional project title - DO NOT start with "Create Bounty for"]
+
+**Description**
+[Brief project overview in 2-4 sentences]
+
+**Requirements**
+[List of key requirements, maximum 5 points]
+- [Requirement 1]
+- [Requirement 2]
+- [Requirement 3]
+- [Requirement 4]
+
+**Tags**
+[Provide 2-4 relevant technical tags, separated by commas.]
+    `;
+}
+
+export const getAllPostsPrompt = (textContent: string, datapost: string) => {
+    return `
+        Based on the request: "${textContent}"
+        Format these posts into a clear table structure: "${datapost}"
+
+        Create a well-organized table with the following format:
+
+        ### Posts Overview Table
+
+        | No. | Author | Post Content 
+        |-----|---------|-------------|
+        [Insert rows here with post data]
+
+        Formatting Rules:
+        1. Number each post sequentially
+        2. Truncate long post content to first 100 characters and add "..." if needed
+        3. Maximum 20 posts per page
+    `;
+}
+

@@ -1,6 +1,6 @@
 import { OpenAIEmbeddings } from '@langchain/openai';
 import { Action, ActionExample, Memory, IAgentRuntime, State, HandlerCallback, generateText, ModelClass, elizaLogger, RAGKnowledgeItem } from "@elizaos/core";
-import { analyzePostPrompt, evaluateSubmissionPrompt } from "./prompts";
+import { analyzePostPrompt, generateBountyPrompt } from "./prompts";
 import { CreateBountyAction } from "./enum";
 import * as fs from 'fs/promises';
 import * as path from 'path';
@@ -224,57 +224,52 @@ const formatDate = (timestamp: number): string => {
     return `${day}/${month}/${year}`;
 };
 
-// Modify the createBountyPools function
+// Modify the createBountyPools function to use generated content
 const createBountyPools = async (
     runtime: IAgentRuntime,
     posts: Array<ProcessedPost & { similarity: number }>,
-    criteria: string[],
-    queryText: string // Add this parameter
+    queryText: string // Now we only need the query text
 ): Promise<any> => {
     try {
-        // ✅ Tính điểm trung bình của tất cả các bài viết
+        // ✅ Calculate average similarity score
         const avgSimilarity = posts.reduce((sum, post) => sum + (post.similarity || 0), 0) / posts.length;
         
-        // ✅ Tính toán các tham số dựa trên điểm trung bình
+        // ✅ Calculate parameters based on similarity
         const stakingAmount = Math.round(avgSimilarity * 1000);
         const minimumOfUser = Math.max(2, Math.round(avgSimilarity * 5));
         
         // ✅ Get expireTime from query or use default
         const expireTime = extractDeadline(queryText);
 
-        // ✅ Tạo một bounty ID duy nhất
+        // ✅ Generate unique bounty ID
         const bountyId = `bounty_${Date.now()}`;
+
+        // ✅ Generate bounty content using AI
+        const bountyContent = await generateText({
+            runtime,
+            context: generateBountyPrompt(queryText, posts.map(p => p.text).join('\n')),
+            modelClass: ModelClass.SMALL,
+        });
+
+        // Parse the generated content
+        const contentSections = parseBountyContent(bountyContent);
         
-        // ✅ Gộp tất cả nội dung bài viết thành một đoạn văn
-        const allPostsContent = posts.map(post => {
-            return `Author: ${post.authorFullname}\n${post.originalTexts.join('\n')}`;
-        }).join('\n\n');
-
-        // ✅ Thêm thông tin về các tác giả có liên quan
-        const relatedAuthors = [...new Set(posts.map(post => post.authorFullname))];
-
-        // ✅ Chuẩn bị dữ liệu để đẩy lên Pinata
+        // ✅ Prepare data for Pinata
         const pinataData = {
             bountyId,
-            allPostsContent,
-            criteria: criteria && criteria.length > 0 ? criteria : ["No specific criteria provided"]
+            ...contentSections,
+            allPostsContent: posts.map(post => {
+                return `Author: ${post.authorFullname}\n${post.originalTexts.join('\n')}`;
+            }).join('\n\n'),
+            relatedAuthors: [...new Set(posts.map(post => post.authorFullname))]
         };
 
         console.log("\n=== UPLOADING DATA TO PINATA ===");
-        console.log("Uploading bounty data to Pinata...");
-        await writeToLog("Uploading bounty data to Pinata...");
-        
-        // ✅ Đẩy dữ liệu lên Pinata
         const pinataResult = await uploadToPinata(pinataData);
+        const dataRefer = pinataResult.IpfsHash || null;
 
-        // ✅ Kiểm tra xem có hash Pinata hay không
-        const dataRefer = pinataResult.IpfsHash || null; // 🆕 Lấy hash từ Pinata để làm `dataRefer`
-        console.log(`Upload successful! Pinata hash: ${dataRefer || 'unknown'}`);
-        await writeToLog(`Uploaded to Pinata, hash: ${dataRefer || 'unknown'}`);
-
-        // ✅ Gọi hàm `createBounty` với tham số bổ sung `dataRefer`
+        // ✅ Create bounty on blockchain
         console.log(`\n=== CREATING BOUNTY ON APTOS ===`);
-        console.log(`Calling createBounty with dataRefer = ${dataRefer}`);
         const transaction = await createBounty(
             dataRefer || "",  
             bountyId,
@@ -283,31 +278,24 @@ const createBountyPools = async (
             expireTime
         );
 
-        // ✅ Check if transaction exists and has a hash
         const transactionHash = transaction && 'hash' in transaction ? transaction.hash : null;
 
-        // ✅ Tạo kết quả bounty với đầy đủ thông tin
+        // ✅ Create complete bounty result
         const bountyResult: any = {
-            bountyId: bountyId, // ✅ Đảo lại giá trị
-            dataRefer: dataRefer, // ✅ Đảo lại giá trị
+            bountyId,
+            dataRefer,
             transactionHash,
             stakingAmount,
             minimumOfUser,
-            expireTime: `${Math.round(expireTime / (24 * 60 * 60))} days`,
+            expireTime,
+            ...contentSections, // Include generated content
             postCount: posts.length,
             avgSimilarity,
-            relatedAuthors,
-            allPostsContent,
-            criteria,
             pinataHash: dataRefer,
             pinataUrl: pinataResult.url || null
         };
-        // ✅ Lưu bounty ID vào file
+
         await saveBountyId(bountyId);
-
-        console.log(`Created bounty with ID: ${bountyId}, Transaction hash: ${transactionHash || 'unknown'}`);
-        await writeToLog(`Created bounty with ID: ${bountyId}, Transaction hash: ${transactionHash || 'unknown'}, Pinata hash: ${dataRefer || 'unknown'}`);
-
         return bountyResult;
     } catch (error) {
         console.error("❌ Error creating bounty:", error);
@@ -316,6 +304,57 @@ const createBountyPools = async (
     }
 };
 
+// Sửa lại hàm parseBountyContent
+const parseBountyContent = (content: string) => {
+    const sections: any = {
+        title: '',
+        description: '',
+        requirements: [],
+        tags: []
+    };
+
+    const lines = content.split('\n');
+    let currentSection = '';
+
+    for (const line of lines) {
+        const trimmedLine = line.trim();
+        
+        if (line.includes('**Title**')) {
+            currentSection = 'title';
+        } else if (line.includes('**Description**')) {
+            currentSection = 'description';
+        } else if (line.includes('**Requirements**')) {
+            currentSection = 'requirements';
+        } else if (line.includes('**Tags**')) {
+            currentSection = 'tags';
+        } else if (trimmedLine) {
+            switch (currentSection) {
+                case 'title':
+                    sections.title = trimmedLine;
+                    break;
+                case 'description':
+                    sections.description += (sections.description ? '\n' : '') + trimmedLine;
+                    break;
+                case 'requirements':
+                    if (trimmedLine.startsWith('-')) {
+                        sections.requirements.push(trimmedLine.substring(1).trim());
+                    }
+                    break;
+                case 'tags':
+                    // Xử lý tags từ AI generate
+                    if (trimmedLine) {
+                        sections.tags = trimmedLine
+                            .split(',')
+                            .map((tag: string) => tag.trim())
+                            .filter((tag: string) => tag.length > 0);
+                    }
+                    break;
+            }
+        }
+    }
+
+    return sections;
+};
 
 // Hàm phân tích input của người dùng để trích xuất các tiêu chí
 const extractCriteria = (text: string): string[] => {
@@ -463,33 +502,27 @@ export default {
                 }))
                 .sort((a, b) => b.similarity - a.similarity);
                 
-                // Create bounty pools from all posts
-                await writeToLog("Creating bounty pools from all posts...");
-                const bountyResult = await createBountyPools(runtime, rankedPosts, criteria, message.content.text);
-                await writeToLog(`Created bounty with ID: ${bountyResult?.bountyId || 'unknown'}`);
-                
-                // Get top posts for response generation (keeping this part for backward compatibility)
-                const topPosts = rankedPosts.slice(0, 3);
-                await writeToLog(`Selected top ${topPosts.length} posts for response generation`);
+                // Create bounty pools from all posts (now without criteria parameter)
+                const bountyResult = await createBountyPools(runtime, rankedPosts, message.content.text);
 
-                // Generate response
-                await writeToLog("Generating text response...");
-                const context = topPosts.map(post => post.text).join('\n\n');
-                const response = await generateText({
-                    runtime,
-                    context: analyzePostPrompt(message.content.text, context),
-                    modelClass: ModelClass.SMALL,
-                    stop: ["\n"],
-                });
-                await writeToLog("Completed text response generation");
+                // Get top posts for response
+                const topPosts = rankedPosts.slice(0, 3);
 
                 // Send response with bounty results
-                await writeToLog("Sending response to callback...");
                 callback?.({
-                    text: response.trim(),
+                    text: `I've created a bounty based on your request! Here are the details:
+
+📌 **${bountyResult.title}**
+
+📝 ${bountyResult.description}
+
+🎯 Requirements:
+${bountyResult.requirements.map(req => `• ${req}`).join('\n')}
+
+🏷️ Tags: ${bountyResult.tags.join(', ')}`,
                     action: CreateBountyAction.CREATE_BOUNTY,
                     params: {
-                        label: response.trim(),
+                        label: bountyResult.title,
                         relevantPosts: topPosts.map(post => ({
                             authorFullname: post.authorFullname,
                             text: post.text,
@@ -497,13 +530,9 @@ export default {
                         })),
                         bountyResult: {
                             ...bountyResult,
-                            // Format the expireTime as dd/MM/yyyy
-                            formattedDeadline: formatDate(Date.now()/1000 + bountyResult.expireTime),
-                            // Keep the original expireTime for other uses
-                            expireTime: bountyResult.expireTime
+                            formattedDeadline: formatDate(Date.now()/1000 + bountyResult.expireTime)
                         },
-                        pinataHash: bountyResult?.pinataHash,
-                        criteria: criteria && criteria.length > 0 ? criteria : ["No specific criteria provided"]
+                        pinataHash: bountyResult?.pinataHash
                     }
                 });
                 await writeToLog("CREATE_BOUNTY analysis completed successfully with bounty");

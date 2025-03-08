@@ -13,3 +13,7 @@ export enum ChatDataAction {
 export enum CreateBountyAction {
     CREATE_BOUNTY = "CREATE_BOUNTY",
 }
+
+export enum GiveInsightDataAction {
+    GIVE_INSIGHT_DATA = "GIVE_INSIGHT_DATA",
+}

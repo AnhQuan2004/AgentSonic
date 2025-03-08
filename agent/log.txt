@@ -1466,3 +1466,257 @@ Deadline: 14 days
 [2025-03-08T04:47:01.201Z] Completed text response generation
 [2025-03-08T04:47:01.201Z] Sending response to callback...
 [2025-03-08T04:47:01.202Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T08:51:25.858Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T08:51:25.861Z] Processing bounty creation request
+[2025-03-08T08:51:25.862Z] Extracted 6 criteria from user input
+[2025-03-08T08:52:29.229Z] Failed attempt 1 to get data: Unexpected token '<', "<html>
+<h"... is not valid JSON
+[2025-03-08T08:53:31.546Z] Failed attempt 2 to get data: Unexpected token '<', "<html>
+<h"... is not valid JSON
+[2025-03-08T08:54:42.403Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T08:54:42.404Z] Processing bounty creation request
+[2025-03-08T08:54:42.405Z] Extracted 6 criteria from user input
+[2025-03-08T08:54:45.863Z] Successfully retrieved data on attempt 1
+[2025-03-08T08:54:45.864Z] Processed 62 posts
+[2025-03-08T08:54:45.871Z] Filtered to 48 posts
+[2025-03-08T08:54:45.872Z] Grouped into 33 author groups
+[2025-03-08T08:54:45.872Z] Starting embeddings generation...
+[2025-03-08T08:54:48.957Z] Completed post embeddings generation
+[2025-03-08T08:54:48.958Z] Starting query embedding generation...
+[2025-03-08T08:54:50.932Z] Completed query embedding generation
+[2025-03-08T08:54:50.933Z] Starting post ranking...
+[2025-03-08T08:54:57.002Z] Bounty ID "bounty_1741424090936" saved to bounty_id.txt
+[2025-03-08T08:54:57.003Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:03:19.233Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T09:03:19.238Z] Processing bounty creation request
+[2025-03-08T09:03:19.239Z] Extracted 6 criteria from user input
+[2025-03-08T09:03:24.386Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:03:24.387Z] Processed 62 posts
+[2025-03-08T09:03:24.387Z] Filtered to 48 posts
+[2025-03-08T09:03:24.388Z] Grouped into 33 author groups
+[2025-03-08T09:03:24.388Z] Starting embeddings generation...
+[2025-03-08T09:03:26.622Z] Completed post embeddings generation
+[2025-03-08T09:03:26.622Z] Starting query embedding generation...
+[2025-03-08T09:03:27.341Z] Completed query embedding generation
+[2025-03-08T09:03:27.342Z] Starting post ranking...
+[2025-03-08T09:03:35.080Z] Bounty ID "bounty_1741424607345" saved to bounty_id.txt
+[2025-03-08T09:03:35.081Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:05:35.644Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T09:05:35.645Z] Processing bounty creation request
+[2025-03-08T09:05:35.646Z] Extracted 6 criteria from user input
+[2025-03-08T09:05:40.312Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:05:40.313Z] Processed 62 posts
+[2025-03-08T09:05:40.313Z] Filtered to 48 posts
+[2025-03-08T09:05:40.314Z] Grouped into 33 author groups
+[2025-03-08T09:05:40.314Z] Starting embeddings generation...
+[2025-03-08T09:05:42.070Z] Completed post embeddings generation
+[2025-03-08T09:05:42.070Z] Starting query embedding generation...
+[2025-03-08T09:05:43.149Z] Completed query embedding generation
+[2025-03-08T09:05:43.150Z] Starting post ranking...
+[2025-03-08T09:05:51.129Z] Bounty ID "bounty_1741424743153" saved to bounty_id.txt
+[2025-03-08T09:05:51.129Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:06:57.213Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T09:06:57.215Z] Processing bounty creation request
+[2025-03-08T09:06:57.215Z] Extracted 6 criteria from user input
+[2025-03-08T09:06:58.784Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:06:58.785Z] Processed 62 posts
+[2025-03-08T09:06:58.786Z] Filtered to 48 posts
+[2025-03-08T09:06:58.786Z] Grouped into 33 author groups
+[2025-03-08T09:06:58.786Z] Starting embeddings generation...
+[2025-03-08T09:07:01.208Z] Completed post embeddings generation
+[2025-03-08T09:07:01.209Z] Starting query embedding generation...
+[2025-03-08T09:07:02.318Z] Completed query embedding generation
+[2025-03-08T09:07:02.319Z] Starting post ranking...
+[2025-03-08T09:07:13.830Z] Bounty ID "bounty_1741424822322" saved to bounty_id.txt
+[2025-03-08T09:07:13.831Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:10:58.856Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+
+
+
+[2025-03-08T09:10:58.857Z] Processing bounty creation request
+[2025-03-08T09:10:58.857Z] Extracted 6 criteria from user input
+[2025-03-08T09:11:07.188Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:11:07.189Z] Processed 62 posts
+[2025-03-08T09:11:07.190Z] Filtered to 48 posts
+[2025-03-08T09:11:07.191Z] Grouped into 33 author groups
+[2025-03-08T09:11:07.191Z] Starting embeddings generation...
+[2025-03-08T09:11:10.832Z] Completed post embeddings generation
+[2025-03-08T09:11:10.834Z] Starting query embedding generation...
+[2025-03-08T09:11:11.689Z] Completed query embedding generation
+[2025-03-08T09:11:11.689Z] Starting post ranking...
+[2025-03-08T09:11:19.302Z] Bounty ID "bounty_1741425071695" saved to bounty_id.txt
+[2025-03-08T09:11:19.302Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:12:34.632Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T09:12:34.633Z] Processing bounty creation request
+[2025-03-08T09:12:34.633Z] Extracted 6 criteria from user input
+[2025-03-08T09:12:40.693Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:12:40.697Z] Processed 62 posts
+[2025-03-08T09:12:40.698Z] Filtered to 48 posts
+[2025-03-08T09:12:40.698Z] Grouped into 33 author groups
+[2025-03-08T09:12:40.699Z] Starting embeddings generation...
+[2025-03-08T09:12:43.455Z] Completed post embeddings generation
+[2025-03-08T09:12:43.456Z] Starting query embedding generation...
+[2025-03-08T09:12:44.268Z] Completed query embedding generation
+[2025-03-08T09:12:44.269Z] Starting post ranking...
+[2025-03-08T09:12:52.429Z] Bounty ID "bounty_1741425164273" saved to bounty_id.txt
+[2025-03-08T09:12:52.429Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:14:03.758Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T09:14:03.759Z] Processing bounty creation request
+[2025-03-08T09:14:03.760Z] Extracted 6 criteria from user input
+[2025-03-08T09:14:11.932Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:14:11.934Z] Processed 62 posts
+[2025-03-08T09:14:11.934Z] Filtered to 48 posts
+[2025-03-08T09:14:11.934Z] Grouped into 33 author groups
+[2025-03-08T09:14:11.935Z] Starting embeddings generation...
+[2025-03-08T09:14:14.448Z] Completed post embeddings generation
+[2025-03-08T09:14:14.449Z] Starting query embedding generation...
+[2025-03-08T09:14:15.053Z] Completed query embedding generation
+[2025-03-08T09:14:15.054Z] Starting post ranking...
+[2025-03-08T09:14:22.338Z] Bounty ID "bounty_1741425255061" saved to bounty_id.txt
+[2025-03-08T09:14:22.339Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:14:55.446Z] Starting action with message: create bounty for AI hackathon
+[2025-03-08T09:14:55.447Z] Processing bounty creation request
+[2025-03-08T09:14:55.448Z] Extracted 0 criteria from user input
+[2025-03-08T09:15:02.978Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:15:02.979Z] Processed 62 posts
+[2025-03-08T09:15:02.980Z] Filtered to 48 posts
+[2025-03-08T09:15:02.980Z] Grouped into 33 author groups
+[2025-03-08T09:15:02.980Z] Starting embeddings generation...
+[2025-03-08T09:15:05.037Z] Completed post embeddings generation
+[2025-03-08T09:15:05.037Z] Starting query embedding generation...
+[2025-03-08T09:15:06.171Z] Completed query embedding generation
+[2025-03-08T09:15:06.172Z] Starting post ranking...
+[2025-03-08T09:15:11.383Z] Bounty ID "bounty_1741425306174" saved to bounty_id.txt
+[2025-03-08T09:15:11.383Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:17:33.183Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T09:17:33.184Z] Processing bounty creation request
+[2025-03-08T09:17:33.185Z] Extracted 6 criteria from user input
+[2025-03-08T09:17:37.016Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:17:37.017Z] Processed 62 posts
+[2025-03-08T09:17:37.017Z] Filtered to 48 posts
+[2025-03-08T09:17:37.018Z] Grouped into 33 author groups
+[2025-03-08T09:17:37.018Z] Starting embeddings generation...
+[2025-03-08T09:17:54.183Z] Completed post embeddings generation
+[2025-03-08T09:17:54.184Z] Starting query embedding generation...
+[2025-03-08T09:17:54.739Z] Completed query embedding generation
+[2025-03-08T09:17:54.740Z] Starting post ranking...
+[2025-03-08T09:18:02.192Z] Bounty ID "bounty_1741425474746" saved to bounty_id.txt
+[2025-03-08T09:18:02.193Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:20:41.452Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T09:20:41.453Z] Processing bounty creation request
+[2025-03-08T09:20:41.454Z] Extracted 6 criteria from user input
+[2025-03-08T09:20:45.457Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:20:45.458Z] Processed 62 posts
+[2025-03-08T09:20:45.458Z] Filtered to 48 posts
+[2025-03-08T09:20:45.459Z] Grouped into 33 author groups
+[2025-03-08T09:20:45.459Z] Starting embeddings generation...
+[2025-03-08T09:20:47.382Z] Completed post embeddings generation
+[2025-03-08T09:20:47.384Z] Starting query embedding generation...
+[2025-03-08T09:20:47.947Z] Completed query embedding generation
+[2025-03-08T09:20:47.948Z] Starting post ranking...
+[2025-03-08T09:20:54.719Z] Bounty ID "bounty_1741425647952" saved to bounty_id.txt
+[2025-03-08T09:20:54.719Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:24:43.607Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T09:24:43.607Z] Processing bounty creation request
+[2025-03-08T09:24:43.608Z] Extracted 6 criteria from user input
+[2025-03-08T09:24:46.877Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:24:46.879Z] Processed 62 posts
+[2025-03-08T09:24:46.879Z] Filtered to 48 posts
+[2025-03-08T09:24:46.880Z] Grouped into 33 author groups
+[2025-03-08T09:24:46.880Z] Starting embeddings generation...
+[2025-03-08T09:24:49.053Z] Completed post embeddings generation
+[2025-03-08T09:24:49.054Z] Starting query embedding generation...
+[2025-03-08T09:24:49.602Z] Completed query embedding generation
+[2025-03-08T09:24:49.603Z] Starting post ranking...
+[2025-03-08T09:24:55.924Z] Bounty ID "bounty_1741425889606" saved to bounty_id.txt
+[2025-03-08T09:24:55.925Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:32:02.033Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-08T09:32:02.034Z] Processing bounty creation request
+[2025-03-08T09:32:02.035Z] Extracted 6 criteria from user input
+[2025-03-08T09:32:06.862Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:32:06.864Z] Processed 62 posts
+[2025-03-08T09:32:06.865Z] Filtered to 48 posts
+[2025-03-08T09:32:06.865Z] Grouped into 33 author groups
+[2025-03-08T09:32:06.866Z] Starting embeddings generation...
+[2025-03-08T09:32:08.928Z] Completed post embeddings generation
+[2025-03-08T09:32:08.929Z] Starting query embedding generation...
+[2025-03-08T09:32:10.026Z] Completed query embedding generation
+[2025-03-08T09:32:10.027Z] Starting post ranking...
+[2025-03-08T09:32:15.875Z] Bounty ID "bounty_1741426330033" saved to bounty_id.txt
+[2025-03-08T09:32:15.876Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-08T09:34:48.971Z] Starting DATA_INSIGHT analysis...
+[2025-03-08T09:34:52.808Z] Successfully retrieved data on attempt 1
+[2025-03-08T09:34:52.809Z] Processing all posts request...
+[2025-03-08T09:35:05.603Z] All posts table generated successfully
