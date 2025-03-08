@@ -75,59 +75,62 @@ export const analyzePostPrompt = (textContent: string, datapost: string) => {
 
 export const evaluateSubmissionPrompt = (allPostsContent: string, submitData: string, criteria: string) => {
     return `
-# Prompt cho hệ thống đánh giá tự động dữ liệu submit
+Prompt for Automated Submission Evaluation System
+Task
+Analyze and evaluate the submitted data based on the provided evaluation criteria to determine whether the submission qualifies for the bounty or not.
 
-## Nhiệm vụ
-Hãy phân tích và đánh giá dữ liệu được submit dựa trên các tiêu chí được cung cấp để xác định liệu submission có đủ điều kiện nhận bounty hay không.
+Input
+- allPostsContent: A collection of all existing posts/content in the system for comparison and reference.
+- submitData: Data submitted by the user that needs to be evaluated.
+- criteria: A list of evaluation criteria with corresponding weights for each criterion.
 
-## Input
-- **allPostsContent**: Tập hợp tất cả các bài đăng/nội dung hiện có trong hệ thống để so sánh và tham chiếu
-- **submitData**: Dữ liệu được người dùng submit cần được đánh giá
-- **criteria**: Danh sách các tiêu chí đánh giá cùng với trọng số cho mỗi tiêu chí
+Functional Requirements
+1. Detailed Analysis
 
-## Yêu cầu chức năng
-1. **Phân tích chi tiết**:
-   - So sánh submitData với allPostsContent để đánh giá tính độc đáo
-   - Đánh giá mức độ đáp ứng mỗi tiêu chí trong criteria
-   - Phát hiện bất kỳ vấn đề nào về chất lượng dữ liệu hoặc việc không tuân thủ tiêu chí
+- Compare submitData with allPostsContent to evaluate its originality.
+- Assess how well the submission meets each criterion in the criteria list.
+- Identify any issues with data quality or failure to meet the defined criteria.
 
-2. **Tính điểm**:
-   - Tính điểm cho từng tiêu chí riêng lẻ (thang điểm 0-10)
-   - Tính điểm tổng hợp có trọng số dựa trên tầm quan trọng của từng tiêu chí
-   - Xác định ngưỡng điểm cần thiết để đủ điều kiện nhận bounty
-   - Nếu submission hoàn toàn không liên quan đến criteria, điểm tổng hợp phải dưới 3/10
-   - Nếu submission chỉ là một câu ngắn không có nội dung kỹ thuật, điểm tổng hợp phải dưới 2/10
+2. Scoring
 
-3. **Phản hồi chi tiết**:
-   - Cung cấp nhận xét cụ thể cho từng tiêu chí
-   - Nêu rõ điểm mạnh và điểm yếu của dữ liệu được submit
-   - Đề xuất cải tiến cụ thể (nếu cần)
+- Assign a score to each individual criterion (on a scale of 0–10).
+- Calculate a weighted overall score based on the importance of each criterion.
+- Define a minimum score threshold for qualifying for the bounty.
+- If the submission is entirely unrelated to the criteria, the overall score should be below 3/10.
+- If the submission is a short, non-technical response, the overall score should be below 2/10.
 
-4. **Đánh giá cuối cùng**:
-   - Kết luận rõ ràng về việc submission có đủ điều kiện nhận bounty hay không
-   - Đưa ra lý do cụ thể cho quyết định
-   - Submission chỉ đủ điều kiện nhận bounty khi điểm tổng hợp từ 7/10 trở lên
+3. Detailed Feedback
 
-## Hướng dẫn chấm điểm nghiêm ngặt
-- Nếu submission không có code khi criteria yêu cầu code: tối đa 2/10 điểm
-- Nếu submission không có hướng dẫn khi criteria yêu cầu hướng dẫn: tối đa 3/10 điểm
-- Nếu submission chỉ là một câu kêu gọi hoặc thông báo: tối đa 1/10 điểm
-- Nếu submission không đề cập đến bất kỳ tiêu chí nào trong criteria: tối đa 0/10 điểm
-- Nếu submission không liên quan đến chủ đề của bounty: 0/10 điểm
+- Provide specific feedback for each evaluation criterion.
+- Highlight the strengths and weaknesses of the submitted data.
+- Offer specific suggestions for improvement (if necessary).
 
-## Output mong muốn
-Hãy trả về một báo cáo đánh giá được cấu trúc theo format sau:
+4. Final Evaluation
 
-\`\`\`json
+- Provide a clear conclusion on whether the submission qualifies for the bounty.
+- Give specific reasons for the decision.
+- The submission will only qualify for the bounty if the overall score is 7/10 or higher.
+
+Strict Scoring Guidelines
+- If the submission lacks code when the criteria require code: maximum score = 2/10.
+- If the submission lacks instructions when the criteria require them: maximum score = 3/10.
+- If the submission is just a call to action or an announcement: maximum score = 1/10.
+- If the submission does not mention any of the criteria in criteria: maximum score = 0/10.
+- If the submission is unrelated to the bounty topic: score = 0/10.
+
+Expected Output
+Return an evaluation report structured as follows:
 {
   "overallScore": number,
   "qualifiesForBounty": boolean,
   "summary": "string",
   "detailedFeedback": "string"
 }
-\`\`\`
-
-## Dữ liệu đánh giá
+Evaluation Data
+- overallScore: Final computed score based on weighted evaluation.
+- qualifiesForBounty: Boolean indicating if the submission meets the bounty requirements.
+- summary: A brief overview of the evaluation result.
+- detailedFeedback: A detailed explanation of how the submission performed against each criterion and areas for improvement.
 allPostsContent: ${allPostsContent}
 
 submitData: ${submitData}

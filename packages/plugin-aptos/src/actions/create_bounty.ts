@@ -136,23 +136,18 @@ const generateRandomString = (length: number): string => {
     return result;
 };
 
-// Hàm để lưu bounty ID vào file
 async function saveBountyId(bountyId: string) {
   try {
-    // Kiểm tra xem file đã tồn tại chưa
     let existingIds = '';
     try {
       existingIds = await fs.readFile('bounty_id.txt', 'utf8');
     } catch (error) {
-      // File không tồn tại, tạo mới
       console.log("Creating new bounty_id.txt file");
       await writeToLog("Creating new bounty_id.txt file");
     }
 
-    // Thêm bounty ID mới vào danh sách
     const updatedIds = existingIds ? `${existingIds.trim()},${bountyId}` : bountyId;
     
-    // Ghi lại vào file
     await fs.writeFile('bounty_id.txt', updatedIds);
     console.log(`Bounty ID "${bountyId}" saved to bounty_id.txt`);
     await writeToLog(`Bounty ID "${bountyId}" saved to bounty_id.txt`);
@@ -165,21 +160,17 @@ async function saveBountyId(bountyId: string) {
   }
 }
 
-// Hàm để kiểm tra bounty ID có tồn tại trong file không
 async function checkBountyIdExists(bountyId: string) {
   try {
-    // Đọc file danh sách bounty ID
     let existingIds = '';
     try {
       existingIds = await fs.readFile('bounty_id.txt', 'utf8');
     } catch (error) {
-      // File không tồn tại
       console.log("bounty_id.txt does not exist yet");
       await writeToLog("bounty_id.txt does not exist yet");
       return false;
     }
 
-    // Chuyển thành mảng và kiểm tra
     const idArray = existingIds.split(',').map(id => id.trim());
     const exists = idArray.includes(bountyId);
     
@@ -304,7 +295,6 @@ const createBountyPools = async (
     }
 };
 
-// Sửa lại hàm parseBountyContent
 const parseBountyContent = (content: string) => {
     const sections: any = {
         title: '',
@@ -341,7 +331,6 @@ const parseBountyContent = (content: string) => {
                     }
                     break;
                 case 'tags':
-                    // Xử lý tags từ AI generate
                     if (trimmedLine) {
                         sections.tags = trimmedLine
                             .split(',')
@@ -356,16 +345,12 @@ const parseBountyContent = (content: string) => {
     return sections;
 };
 
-// Hàm phân tích input của người dùng để trích xuất các tiêu chí
 const extractCriteria = (text: string): string[] => {
-    // Tìm vị trí của dấu ":" trong văn bản
     const colonIndex = text.indexOf(':');
     if (colonIndex === -1) return [];
     
-    // Lấy phần văn bản sau dấu ":"
     const criteriaText = text.substring(colonIndex + 1).trim();
     
-    // Tách thành các dòng và loại bỏ dòng trống
     const lines = criteriaText.split('\n')
         .map(line => line.trim())
         .filter(line => line.length > 0);
@@ -397,27 +382,23 @@ export default {
         try {
             await writeToLog(`Starting action with message: ${message.content.text}`);
             
-            // Kiểm tra xem người dùng muốn đánh giá submission hay tạo bounty mới
             const messageText = message.content.text.toLowerCase();
             const isEvaluationRequest = messageText.includes('evaluate') || 
                                         messageText.includes('check submission') || 
                                         messageText.includes('verify submission');
             
             if (isEvaluationRequest) {
-                // Xử lý yêu cầu đánh giá submission
                 await writeToLog("Processing submission evaluation request");
                 
-                // Tìm bounty ID trong tin nhắn
                 const bountyIdMatch = messageText.match(/bounty[_\s-]?id[:\s]+([a-zA-Z0-9_-]+)/i) || 
                                      messageText.match(/for\s+bounty[:\s]+([a-zA-Z0-9_-]+)/i) ||
-                                     messageText.match(/([a-zA-Z0-9_-]{20,})/); // Tìm chuỗi dài có thể là ID
+                                     messageText.match(/([a-zA-Z0-9_-]{20,})/); 
                 
                 let bountyId;
                 if (bountyIdMatch && bountyIdMatch[1]) {
                     bountyId = bountyIdMatch[1].trim();
                 } else {
-                    // Nếu không tìm thấy ID, sử dụng ID mặc định hoặc yêu cầu người dùng cung cấp
-                    bountyId = "QmWSCo3nbstRD97wSdjJx6Nt2saBRMEQKfeeYFDWpgabpg"; // Hash mới
+                    bountyId = "QmWSCo3nbstRD97wSdjJx6Nt2saBRMEQKfeeYFDWpgabpg"; 
                     console.log("No bounty ID found in message, using default ID for demo purposes");
                     await writeToLog("No bounty ID found, using default ID");
                 }
@@ -428,14 +409,11 @@ export default {
                 await writeToLog("Submission evaluation completed successfully");
                 
             } else {
-                // Xử lý yêu cầu tạo bounty mới (code hiện tại)
                 await writeToLog("Processing bounty creation request");
 
-                // Trích xuất các tiêu chí từ input của người dùng
                 const criteria = extractCriteria(message.content.text);
                 await writeToLog(`Extracted ${criteria.length} criteria from user input`);
 
-                // Thay thế phần lấy rawData cũ bằng getAllData
                 let rawData;
                 const maxRetries = 3;
                 for (let i = 0; i < maxRetries; i++) {
