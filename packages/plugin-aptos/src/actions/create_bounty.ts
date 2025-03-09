@@ -8,13 +8,11 @@ import { getFilesByParentId } from '../services/tusky';
 import axios from 'axios';
 // Import bounty functions
 import { createBounty} from '../services/bounty';
-// Sử dụng service Pinata mới
 import { uploadToPinata} from '../services/pinata';
+import { sonicServices } from '../services/sonic';
 // Import the fetchPinataData function
 // import { fetchPinataData } from './get_pinata_data';
 // Pinata configuration
-const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyYjZjM2ExZS1lNGFmLTRjZjQtYjI4Ny1jNWU4ODAwMDJlZmYiLCJlbWFpbCI6ImFuaHF1YW4yMDA0MTQ1MkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYjZlMmYxNmEzMjE4M2IxZDViNGIiLCJzY29wZWRLZXlTZWNyZXQiOiJmYTVhNTNkMzMxNDAwMzQyNGM1ZTZmOGM3ZWE2YzEwZmZkMjU5NmNiMGM3Yjg5MDE3ODQyZWI1ZDZiYWYxOGVkIiwiZXhwIjoxNzcyMzY0NTAzfQ.LxehNth0tAwf75IPsXLULDKrW0RDyeH03cChLt-5xPw";
-const PINATA_GATEWAY = "teal-geographical-stork-778.mypinata.cloud";
 import { getAllData } from '../services/get_data';
 
 // Utility function to write logs to file
@@ -206,6 +204,31 @@ const extractDeadline = (text: string): number => {
     return 7 * 24 * 60 * 60;
 };
 
+// Add these functions after extractDeadline
+const extractStakingAmount = (text: string): number => {
+    const amountMatch = text.toLowerCase().match(/amount:\s*(\d*\.?\d+)/i) ||
+                       text.toLowerCase().match(/staking:\s*(\d*\.?\d+)/i);
+    
+    if (amountMatch && amountMatch[1]) {
+        return parseFloat(amountMatch[1]);
+    }
+    
+    // Default to 0.5 if no amount specified
+    return 0.5;
+};
+
+const extractMinimumUsers = (text: string): number => {
+    const usersMatch = text.toLowerCase().match(/users:\s*(\d+)/i) ||
+                      text.toLowerCase().match(/minimum users:\s*(\d+)/i);
+    
+    if (usersMatch && usersMatch[1]) {
+        return parseInt(usersMatch[1]);
+    }
+    
+    // Default to 5 if no minimum users specified
+    return 5;
+};
+
 // Add this utility function for date formatting
 const formatDate = (timestamp: number): string => {
     const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
@@ -219,71 +242,89 @@ const formatDate = (timestamp: number): string => {
 const createBountyPools = async (
     runtime: IAgentRuntime,
     posts: Array<ProcessedPost & { similarity: number }>,
-    queryText: string // Now we only need the query text
+    queryText: string
 ): Promise<any> => {
     try {
-        // ✅ Calculate average similarity score
-        const avgSimilarity = posts.reduce((sum, post) => sum + (post.similarity || 0), 0) / posts.length;
+        await writeToLog(`Starting bounty creation with ${posts.length} posts`);
         
-        // ✅ Calculate parameters based on similarity
-        const stakingAmount = Math.round(avgSimilarity * 1000);
-        const minimumOfUser = Math.max(2, Math.round(avgSimilarity * 5));
+        // ✅ Get top relevant posts (top 5 posts with highest similarity)
+        const topPosts = posts
+            .sort((a, b) => b.similarity - a.similarity)
+            .slice(0, 5);
+        
+        // ✅ Get staking amount and minimum users from query text or use defaults
+        const stakingAmount = extractStakingAmount(queryText);
+        const minimumOfUser = extractMinimumUsers(queryText);
         
         // ✅ Get expireTime from query or use default
         const expireTime = extractDeadline(queryText);
 
-        // ✅ Generate unique bounty ID
-        const bountyId = `bounty_${Date.now()}`;
-
         // ✅ Generate bounty content using AI
         const bountyContent = await generateText({
             runtime,
-            context: generateBountyPrompt(queryText, posts.map(p => p.text).join('\n')),
+            context: generateBountyPrompt(queryText, topPosts.map(p => p.text).join('\n')),
             modelClass: ModelClass.SMALL,
         });
 
         // Parse the generated content
         const contentSections = parseBountyContent(bountyContent);
         
-        // ✅ Prepare data for Pinata
+        // ✅ Prepare simplified data for Pinata - only allPostData from top posts
+        const allPostData: { [key: string]: string[] } = {};
+        topPosts.forEach(post => {
+            if (!allPostData[post.authorFullname]) {
+                allPostData[post.authorFullname] = [];
+            }
+            // Remove duplicates using Set
+            const uniqueTexts = [...new Set(post.originalTexts)];
+            allPostData[post.authorFullname].push(...uniqueTexts);
+        });
+
+        // Remove duplicates across all posts for each author
+        for (const author in allPostData) {
+            allPostData[author] = [...new Set(allPostData[author])];
+        }
+
         const pinataData = {
-            bountyId,
-            ...contentSections,
-            allPostsContent: posts.map(post => {
-                return `Author: ${post.authorFullname}\n${post.originalTexts.join('\n')}`;
-            }).join('\n\n'),
-            relatedAuthors: [...new Set(posts.map(post => post.authorFullname))]
+            allPostData,
+            ...contentSections
         };
 
         console.log("\n=== UPLOADING DATA TO PINATA ===");
         const pinataResult = await uploadToPinata(pinataData);
-        const dataRefer = pinataResult.IpfsHash || null;
+        const bountyId = pinataResult.IpfsHash || null;
+
+        if (!bountyId) {
+            throw new Error("Failed to get IPFS hash from Pinata");
+        }
 
         // ✅ Create bounty on blockchain
         console.log(`\n=== CREATING BOUNTY ON APTOS ===`);
-        const transaction = await createBounty(
-            dataRefer || "",  
+        const transaction = await sonicServices.create(
             bountyId,
+            bountyId,  // using bountyId (IPFS hash) as dataRefer
             stakingAmount,
             minimumOfUser,
             expireTime
         );
 
         const transactionHash = transaction && 'hash' in transaction ? transaction.hash : null;
+        const explorerLink = transactionHash ? `https://testnet.soniclabs.com/tx/${transactionHash}` : null;
 
-        // ✅ Create complete bounty result
+        // ✅ Create simplified bounty result
         const bountyResult: any = {
-            bountyId,
-            dataRefer,
+            bountyId,  // This is now the IPFS hash
+            dataRefer: bountyId,  // Same as bountyId
             transactionHash,
+            explorerLink,
             stakingAmount,
             minimumOfUser,
             expireTime,
-            ...contentSections, // Include generated content
-            postCount: posts.length,
-            avgSimilarity,
-            pinataHash: dataRefer,
-            pinataUrl: pinataResult.url || null
+            ...contentSections,
+            postCount: Object.values(allPostData).flat().length,
+            pinataHash: bountyId,  // Same as bountyId
+            pinataUrl: pinataResult.url || null,
+            allPostData
         };
 
         await saveBountyId(bountyId);
@@ -317,6 +358,8 @@ const parseBountyContent = (content: string) => {
             currentSection = 'requirements';
         } else if (line.includes('**Tags**')) {
             currentSection = 'tags';
+        } else if (line.includes('**ExplorerLink**')) {
+            currentSection = 'explorerLink';
         } else if (trimmedLine) {
             switch (currentSection) {
                 case 'title':
@@ -337,6 +380,9 @@ const parseBountyContent = (content: string) => {
                             .map((tag: string) => tag.trim())
                             .filter((tag: string) => tag.length > 0);
                     }
+                    break;
+                case 'explorerLink':
+                    sections.explorerLink = trimmedLine;
                     break;
             }
         }
@@ -492,7 +538,9 @@ export default {
 🎯 Requirements:
 ${bountyResult.requirements.map(req => `• ${req}`).join('\n')}
 
-🏷️ Tags: ${bountyResult.tags.join(', ')}`,
+🏷️ Tags: ${bountyResult.tags.join(', ')}
+
+🔍 Explorer Link: ${bountyResult.explorerLink}`,
                     action: CreateBountyAction.CREATE_BOUNTY,
                     params: {
                         label: bountyResult.title,

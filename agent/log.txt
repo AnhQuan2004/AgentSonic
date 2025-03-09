@@ -126,3 +126,154 @@ Deadline: 15/03/2025
 [2025-03-08T16:31:36.847Z] Starting post ranking...
 [2025-03-08T16:31:46.347Z] Bounty ID "bounty_1741451496850" saved to bounty_id.txt
 [2025-03-08T16:31:46.348Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-09T07:40:50.186Z] Starting DATA_INSIGHT analysis...
+[2025-03-09T07:40:51.467Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T07:40:51.468Z] Processed 19 posts
+[2025-03-09T07:40:51.468Z] Filtered to 19 posts
+[2025-03-09T07:40:51.468Z] Grouped into 12 author groups
+[2025-03-09T07:40:51.469Z] Starting embeddings generation...
+[2025-03-09T07:40:53.728Z] Completed post embeddings generation
+[2025-03-09T07:40:53.728Z] Starting query embedding generation...
+[2025-03-09T07:40:54.673Z] Completed query embedding generation
+[2025-03-09T07:40:54.674Z] Starting post ranking...
+[2025-03-09T07:40:54.677Z] Ranked posts and selected top 3
+[2025-03-09T07:40:54.684Z] Generating text response...
+[2025-03-09T07:41:02.943Z] Completed text response generation
+[2025-03-09T07:41:02.944Z] Sending response to callback...
+[2025-03-09T07:41:02.944Z] DATA_INSIGHT analysis completed successfully
+[2025-03-09T07:48:01.223Z] Starting action with message: create bounty for AI hackathon
+[2025-03-09T07:48:01.231Z] Processing bounty creation request
+[2025-03-09T07:48:01.232Z] Extracted 0 criteria from user input
+[2025-03-09T07:48:02.955Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T07:48:02.956Z] Processed 19 posts
+[2025-03-09T07:48:02.956Z] Filtered to 19 posts
+[2025-03-09T07:48:02.957Z] Grouped into 12 author groups
+[2025-03-09T07:48:02.958Z] Starting embeddings generation...
+[2025-03-09T07:48:05.038Z] Completed post embeddings generation
+[2025-03-09T07:48:05.040Z] Starting query embedding generation...
+[2025-03-09T07:48:05.892Z] Completed query embedding generation
+[2025-03-09T07:48:05.893Z] Starting post ranking...
+[2025-03-09T07:48:12.214Z] Bounty ID "bounty_1741506485897" saved to bounty_id.txt
+[2025-03-09T07:48:12.215Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-09T07:53:00.348Z] Starting action with message: create bounty for AI hackathon
+[2025-03-09T07:53:00.351Z] Processing bounty creation request
+[2025-03-09T07:53:00.352Z] Extracted 0 criteria from user input
+[2025-03-09T07:53:01.432Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T07:53:01.433Z] Processed 19 posts
+[2025-03-09T07:53:01.433Z] Filtered to 19 posts
+[2025-03-09T07:53:01.433Z] Grouped into 12 author groups
+[2025-03-09T07:53:01.434Z] Starting embeddings generation...
+[2025-03-09T07:53:03.118Z] Completed post embeddings generation
+[2025-03-09T07:53:03.119Z] Starting query embedding generation...
+[2025-03-09T07:53:04.173Z] Completed query embedding generation
+[2025-03-09T07:53:04.176Z] Starting post ranking...
+[2025-03-09T07:53:15.658Z] Bounty ID "bounty_1741506784184" saved to bounty_id.txt
+[2025-03-09T07:53:15.660Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-09T07:57:43.603Z] Starting action with message: create bounty for AI hackathon
+[2025-03-09T07:57:43.606Z] Processing bounty creation request
+[2025-03-09T07:57:43.606Z] Extracted 0 criteria from user input
+[2025-03-09T07:57:44.711Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T07:57:44.712Z] Processed 19 posts
+[2025-03-09T07:57:44.714Z] Filtered to 19 posts
+[2025-03-09T07:57:44.716Z] Grouped into 12 author groups
+[2025-03-09T07:57:44.717Z] Starting embeddings generation...
+[2025-03-09T07:57:46.657Z] Completed post embeddings generation
+[2025-03-09T07:57:46.658Z] Starting query embedding generation...
+[2025-03-09T07:57:47.491Z] Completed query embedding generation
+[2025-03-09T07:57:47.492Z] Starting post ranking...
+[2025-03-09T07:57:59.167Z] Bounty ID "bounty_1741507067502" saved to bounty_id.txt
+[2025-03-09T07:57:59.169Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-09T07:59:50.660Z] Starting action with message: create bounty for AI hackathon
+[2025-03-09T07:59:50.662Z] Processing bounty creation request
+[2025-03-09T07:59:50.663Z] Extracted 0 criteria from user input
+[2025-03-09T07:59:55.738Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T07:59:55.740Z] Processed 19 posts
+[2025-03-09T07:59:55.740Z] Filtered to 19 posts
+[2025-03-09T07:59:55.741Z] Grouped into 12 author groups
+[2025-03-09T07:59:55.742Z] Starting embeddings generation...
+[2025-03-09T07:59:57.047Z] Completed post embeddings generation
+[2025-03-09T07:59:57.049Z] Starting query embedding generation...
+[2025-03-09T07:59:58.394Z] Completed query embedding generation
+[2025-03-09T07:59:58.396Z] Starting post ranking...
+[2025-03-09T08:00:13.433Z] Bounty ID "bounty_1741507198404" saved to bounty_id.txt
+[2025-03-09T08:00:13.435Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-09T08:01:49.059Z] Starting action with message: create bounty for AI hackathon
+[2025-03-09T08:01:49.060Z] Processing bounty creation request
+[2025-03-09T08:01:49.061Z] Extracted 0 criteria from user input
+[2025-03-09T08:01:55.371Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T08:01:55.373Z] Processed 19 posts
+[2025-03-09T08:01:55.375Z] Filtered to 19 posts
+[2025-03-09T08:01:55.376Z] Grouped into 12 author groups
+[2025-03-09T08:01:55.378Z] Starting embeddings generation...
+[2025-03-09T08:01:57.994Z] Completed post embeddings generation
+[2025-03-09T08:01:57.994Z] Starting query embedding generation...
+[2025-03-09T08:01:58.591Z] Completed query embedding generation
+[2025-03-09T08:01:58.591Z] Starting post ranking...
+[2025-03-09T08:02:11.338Z] Bounty ID "bounty_1741507318594" saved to bounty_id.txt
+[2025-03-09T08:02:11.339Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-09T08:12:18.045Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+Amount: 0.5
+Users: 4
+[2025-03-09T08:12:18.049Z] Processing bounty creation request
+[2025-03-09T08:12:18.051Z] Extracted 8 criteria from user input
+[2025-03-09T08:12:21.643Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T08:12:21.644Z] Processed 19 posts
+[2025-03-09T08:12:21.645Z] Filtered to 19 posts
+[2025-03-09T08:12:21.646Z] Grouped into 12 author groups
+[2025-03-09T08:12:21.648Z] Starting embeddings generation...
+[2025-03-09T08:12:23.694Z] Completed post embeddings generation
+[2025-03-09T08:12:23.695Z] Starting query embedding generation...
+[2025-03-09T08:12:24.518Z] Completed query embedding generation
+[2025-03-09T08:12:24.519Z] Starting post ranking...
+[2025-03-09T08:12:36.209Z] Bounty ID "bounty_1741507944527" saved to bounty_id.txt
+[2025-03-09T08:12:36.210Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-09T08:35:29.099Z] Starting action with message: creaete bounty for AI hackthon
+[2025-03-09T08:35:29.101Z] Processing bounty creation request
+[2025-03-09T08:35:29.102Z] Extracted 0 criteria from user input
+[2025-03-09T08:35:43.429Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T08:35:43.432Z] Processed 19 posts
+[2025-03-09T08:35:43.434Z] Filtered to 19 posts
+[2025-03-09T08:35:43.435Z] Grouped into 12 author groups
+[2025-03-09T08:35:43.435Z] Starting embeddings generation...
+[2025-03-09T08:35:45.041Z] Completed post embeddings generation
+[2025-03-09T08:35:45.044Z] Starting query embedding generation...
+[2025-03-09T08:35:45.951Z] Completed query embedding generation
+[2025-03-09T08:35:45.952Z] Starting post ranking...
+[2025-03-09T08:35:57.556Z] Bounty ID "bounty_1741509345961" saved to bounty_id.txt
+[2025-03-09T08:35:57.558Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-09T08:40:50.254Z] Starting action with message: create bounty for AI hackthon
+[2025-03-09T08:40:50.257Z] Processing bounty creation request
+[2025-03-09T08:40:50.258Z] Extracted 0 criteria from user input
+[2025-03-09T08:41:03.931Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T08:41:03.932Z] Processed 19 posts
+[2025-03-09T08:41:03.933Z] Filtered to 19 posts
+[2025-03-09T08:41:03.935Z] Grouped into 12 author groups
+[2025-03-09T08:41:03.936Z] Starting embeddings generation...
+[2025-03-09T08:41:05.684Z] Completed post embeddings generation
+[2025-03-09T08:41:05.688Z] Starting query embedding generation...
+[2025-03-09T08:41:07.114Z] Completed query embedding generation
+[2025-03-09T08:41:07.114Z] Starting post ranking...
+[2025-03-09T08:41:07.122Z] Starting bounty creation with 12 posts
+[2025-03-09T08:41:18.623Z] Bounty ID "bounty_1741509667125" saved to bounty_id.txt
+[2025-03-09T08:41:18.624Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-09T09:46:03.803Z] Starting action with message: create bounty for AI hackathon
+[2025-03-09T09:46:03.810Z] Processing bounty creation request
+[2025-03-09T09:46:03.811Z] Extracted 0 criteria from user input
+[2025-03-09T09:46:19.245Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T09:46:19.247Z] Processed 19 posts
+[2025-03-09T09:46:19.247Z] Filtered to 19 posts
+[2025-03-09T09:46:19.248Z] Grouped into 12 author groups
+[2025-03-09T09:46:19.248Z] Starting embeddings generation...
+[2025-03-09T09:46:21.231Z] Completed post embeddings generation
+[2025-03-09T09:46:21.232Z] Starting query embedding generation...
+[2025-03-09T09:46:22.148Z] Completed query embedding generation
+[2025-03-09T09:46:22.149Z] Starting post ranking...
+[2025-03-09T09:46:22.154Z] Starting bounty creation with 12 posts
+[2025-03-09T09:46:40.479Z] Bounty ID "Qmc5KcGzHAeTisMuH1YwCmYMgMGMKQVXDFrsJ2unVMvw2h" saved to bounty_id.txt
+[2025-03-09T09:46:40.480Z] CREATE_BOUNTY analysis completed successfully with bounty

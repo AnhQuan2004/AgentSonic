@@ -22,6 +22,7 @@
 		"@aptos-labs/ts-sdk": "^1.26.0",
 		"@elizaos/core": "workspace:*",
 		"@pinecone-database/pinecone": "^1.1.0",
+		"ethers": "^6.11.1",
 		"axios": "^1.7.9",
 		"bignumber.js": "9.1.2",
 		"langchain": "^0.1.9",
