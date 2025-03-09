@@ -6,6 +6,7 @@ import fs from "fs";
 import { getFolderByUserAddress } from "./tusky";
 import {getFilesByParentId} from "./tusky";
 import { getAllData } from './pinata';
+import { sonicServices } from "./sonic";
 
 import {
     type AgentRuntime,
@@ -101,6 +102,72 @@ export function createApiRouter(
 
     router.get("/hello", (req, res) => {
         res.json({ message: "Hello World!" });
+    });
+
+    router.get("/reward", async (req, res) => {
+        try {
+            const bounties = await sonicServices.findAll();
+            if (!bounties || !Array.isArray(bounties)) {
+                throw new Error('No bounties found or invalid data format');
+            }
+
+            const currentTimestamp = Math.floor(Date.now() / 1000);
+            console.log('Current timestamp:', currentTimestamp);
+            
+            console.log(`Processing ${bounties.length} bounties:`);
+            console.log(bounties.map(b => ({
+                id: b.bountyId,
+                expired: b.expiredAt,
+                distributed: b.distributed,
+                shouldProcess: parseInt(b.expiredAt) <= currentTimestamp && !b.distributed
+            })));
+
+            const results = [];
+
+            for (const bounty of bounties) {
+                try {
+                    const expiredAt = parseInt(bounty.expiredAt);
+                    
+                    if (expiredAt <= currentTimestamp && !bounty.distributed) {
+                        console.log(`Processing bounty ${bounty.bountyId} - Expired at: ${expiredAt}`);
+                        
+                        const distributionResult = await sonicServices.distributeRewards(bounty.bountyId);
+                        
+                        if (distributionResult) {
+                            results.push({
+                                bountyId: bounty.bountyId,
+                                status: 'success',
+                                transactionHash: distributionResult.hash || null,
+                                expiredAt: new Date(expiredAt * 1000).toISOString()
+                            });
+                        } else {
+                            console.log(`Skipped bounty ${bounty.bountyId} - Already distributed`);
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Error processing bounty ${bounty.bountyId}:`, error);
+                    results.push({
+                        bountyId: bounty.bountyId,
+                        status: 'failed',
+                        error: error.message,
+                        expiredAt: new Date(parseInt(bounty.expiredAt) * 1000).toISOString()
+                    });
+                }
+            }
+
+            res.json({
+                timestamp: new Date().toISOString(),
+                processedBounties: results
+            });
+
+        } catch (error) {
+            console.error('Error in reward distribution:', error);
+            res.status(500).json({
+                error: 'Failed to process rewards distribution',
+                message: error.message,
+                timestamp: new Date().toISOString()
+            });
+        }
     });
 
     router.get("/data", async (req, res) => {

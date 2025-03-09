@@ -277,3 +277,24 @@ Users: 4
 [2025-03-09T09:46:22.154Z] Starting bounty creation with 12 posts
 [2025-03-09T09:46:40.479Z] Bounty ID "Qmc5KcGzHAeTisMuH1YwCmYMgMGMKQVXDFrsJ2unVMvw2h" saved to bounty_id.txt
 [2025-03-09T09:46:40.480Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-09T14:48:37.749Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-09T14:48:37.751Z] Processing bounty creation request
+[2025-03-09T14:48:37.751Z] Extracted 6 criteria from user input
+[2025-03-09T14:48:38.807Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-09T14:48:38.808Z] Processed 19 posts
+[2025-03-09T14:48:38.809Z] Filtered to 19 posts
+[2025-03-09T14:48:38.809Z] Grouped into 12 author groups
+[2025-03-09T14:48:38.809Z] Starting embeddings generation...
+[2025-03-09T14:48:40.475Z] Completed post embeddings generation
+[2025-03-09T14:48:40.476Z] Starting query embedding generation...
+[2025-03-09T14:48:41.642Z] Completed query embedding generation
+[2025-03-09T14:48:41.643Z] Starting post ranking...
+[2025-03-09T14:48:41.646Z] Starting bounty creation with 12 posts
+[2025-03-09T14:48:52.266Z] Bounty ID "QmawwXyYUFK8PUw7SZYS8Ddx9n8LEiW48EKB4kQS6brGDT" saved to bounty_id.txt
+[2025-03-09T14:48:52.266Z] CREATE_BOUNTY analysis completed successfully with bounty

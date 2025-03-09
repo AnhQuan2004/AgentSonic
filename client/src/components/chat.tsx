@@ -187,6 +187,27 @@ export default function Page({ agentId }: { agentId: UUID }) {
         }
     });
 
+    //fetch reward
+    const { data: rewardData } = useQuery({
+        queryKey: ["reward-data"],
+        queryFn: async () => {
+            const response = await fetch("http://localhost:3000/reward", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            return response.json();
+        }
+    });
+
+    useEffect(() => {
+        if (rewardData) {
+            console.log("Reward Data:", rewardData);
+            // Xử lý data ở đây
+        }
+    }, [rewardData]);
+
     // Label data
     // const { data: labelData } = useQuery({
     //     queryKey: ["label-data"],
