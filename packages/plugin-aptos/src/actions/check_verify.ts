@@ -87,7 +87,16 @@ export default {
                 // Find the specific bounty
                 const bounty = bounties.find(b => b.bountyId === bountyId);
                 if (!bounty) {
-                    throw new Error(`Bounty with ID ${bountyId} not found`);
+                    callback?.({
+                        text: `Bounty not available. The bounty ID ${bountyId} could not be found.`,
+                        action: "CHECK_VERIFY",
+                        params: {
+                            type: "submission_evaluation",
+                            error: "bounty_not_found",
+                            bountyId
+                        }
+                    });
+                    return;
                 }
 
                 // Fetch IPFS data for the bounty
@@ -111,7 +120,6 @@ export default {
 
                 let evaluation;
                 try {
-                    // Clean up the evaluation result before parsing
                     const cleanResult = evaluationResult
                         .replace(/```json\n?/g, '')  // Remove ```json
                         .replace(/```\n?/g, '')      // Remove closing ```
