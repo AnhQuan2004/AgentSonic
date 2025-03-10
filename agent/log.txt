@@ -298,3 +298,39 @@ Deadline: 15/03/2025
 [2025-03-09T14:48:41.646Z] Starting bounty creation with 12 posts
 [2025-03-09T14:48:52.266Z] Bounty ID "QmawwXyYUFK8PUw7SZYS8Ddx9n8LEiW48EKB4kQS6brGDT" saved to bounty_id.txt
 [2025-03-09T14:48:52.266Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T05:57:53.975Z] Starting action with message: Create bounty for developing a smart contract on Aptos with:
+Implementation using Move programming language.
+A contract that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Aptos testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+Deadline: 15/03/2025
+[2025-03-10T05:57:53.980Z] Processing bounty creation request
+[2025-03-10T05:57:53.981Z] Extracted 6 criteria from user input
+[2025-03-10T05:57:55.016Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T05:57:55.017Z] Processed 21 posts
+[2025-03-10T05:57:55.018Z] Filtered to 21 posts
+[2025-03-10T05:57:55.019Z] Grouped into 14 author groups
+[2025-03-10T05:57:55.021Z] Starting embeddings generation...
+[2025-03-10T05:57:56.984Z] Completed post embeddings generation
+[2025-03-10T05:57:56.985Z] Starting query embedding generation...
+[2025-03-10T05:57:58.218Z] Completed query embedding generation
+[2025-03-10T05:57:58.219Z] Starting post ranking...
+[2025-03-10T05:57:58.222Z] Starting bounty creation with 14 posts
+[2025-03-10T05:58:10.439Z] Bounty ID "QmNhi1mK3U2Ved1eqFxSJdBBLDDj5HceSEm6Z556P95VoT" saved to bounty_id.txt
+[2025-03-10T05:58:10.440Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T05:58:17.127Z] Starting action with message: create bounty for AI hackathon
+[2025-03-10T05:58:17.129Z] Processing bounty creation request
+[2025-03-10T05:58:17.131Z] Extracted 0 criteria from user input
+[2025-03-10T05:58:18.193Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T05:58:18.194Z] Processed 4 posts
+[2025-03-10T05:58:18.196Z] Filtered to 4 posts
+[2025-03-10T05:58:18.197Z] Grouped into 3 author groups
+[2025-03-10T05:58:18.198Z] Starting embeddings generation...
+[2025-03-10T05:58:19.706Z] Completed post embeddings generation
+[2025-03-10T05:58:19.706Z] Starting query embedding generation...
+[2025-03-10T05:58:20.906Z] Completed query embedding generation
+[2025-03-10T05:58:20.906Z] Starting post ranking...
+[2025-03-10T05:58:20.908Z] Starting bounty creation with 3 posts
+[2025-03-10T05:58:31.738Z] Bounty ID "QmV425Mfig4sohinWvfKS6ghwfZuEVRAbj7FeJZSwgHDE7" saved to bounty_id.txt
+[2025-03-10T05:58:31.738Z] CREATE_BOUNTY analysis completed successfully with bounty

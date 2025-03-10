@@ -246,22 +246,29 @@ const createBountyPools = async (
     try {
         await writeToLog(`Starting bounty creation with ${posts.length} posts`);
         
+        // ✅ Get top relevant posts (top 5 posts with highest similarity)
         const topPosts = posts
             .sort((a, b) => b.similarity - a.similarity)
             .slice(0, 5);
+        
+        // ✅ Get staking amount and minimum users from query text or use defaults
         const stakingAmount = extractStakingAmount(queryText);
         const minimumOfUser = extractMinimumUsers(queryText);
         
+        // ✅ Get expireTime from query or use default
         const expireTime = extractDeadline(queryText);
 
+        // ✅ Generate bounty content using AI
         const bountyContent = await generateText({
             runtime,
             context: generateBountyPrompt(queryText, topPosts.map(p => p.text).join('\n')),
             modelClass: ModelClass.SMALL,
         });
 
+        // Parse the generated content
         const contentSections = parseBountyContent(bountyContent);
         
+        // ✅ Prepare simplified data for Pinata - only allPostData from top posts
         const allPostData: { [key: string]: string[] } = {};
         topPosts.forEach(post => {
             if (!allPostData[post.authorFullname]) {
