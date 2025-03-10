@@ -3,7 +3,7 @@ import * as fs from 'fs/promises';
 
 // Pinata configuration
 const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJkZDkyNDM1OC0zNjQzLTRhOWMtYjJmOS1lMDIyMjNlYzcwZWUiLCJlbWFpbCI6ImZseWZpc2gub250aGVnb0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYjA0YWJlNjRlNmI5NDZmMDVhMjgiLCJzY29wZWRLZXlTZWNyZXQiOiJmN2I0MTI4NjNmOTQ4MWUwOTBjN2QwY2Q5NjBkMzhhZGM3YThiMTg2OTIyZTE0MWViZDBmOWU1MmI4NmJhYjE5IiwiZXhwIjoxNzcyMzU4Nzg3fQ.TIs8QBjePc2L45RoUA-GNaFwjwfVAvhm9PSCqlQZgEw";
-const PINATA_GATEWAY = "blush-hollow-damselfly-687.mypinata.cloud";
+const PINATA_GATEWAY = "blush-permanent-rat-990.mypinata.cloud";
 
 // Utility function to write logs to file
 async function writeToLog(message: string) {
@@ -66,12 +66,7 @@ export const getFromPinata = async (ipfsHash: string): Promise<any> => {
     try {
         // Gọi trực tiếp đến gateway để lấy dữ liệu
         const response = await axios.get(
-            `https://${PINATA_GATEWAY}/ipfs/${ipfsHash}`,
-            {
-                headers: {
-                    'Authorization': `Bearer ${PINATA_JWT}`
-                }
-            }
+            `https://blush-permanent-rat-990.mypinata.cloud/ipfs/${ipfsHash}`,
         );
         
         await writeToLog(`Retrieved data from Pinata with hash: ${ipfsHash}`);

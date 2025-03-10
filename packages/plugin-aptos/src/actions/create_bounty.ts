@@ -291,7 +291,7 @@ const createBountyPools = async (
         }
 
         // ✅ Create bounty on blockchain
-        console.log(`\n=== CREATING BOUNTY ON APTOS ===`);
+        console.log(`\n=== CREATING BOUNTY ON SONIC ===`);
         const transaction = await sonicServices.create(
             bountyId,
             bountyId,  // using bountyId (IPFS hash) as dataRefer

@@ -334,3 +334,349 @@ Deadline: 15/03/2025
 [2025-03-10T05:58:20.908Z] Starting bounty creation with 3 posts
 [2025-03-10T05:58:31.738Z] Bounty ID "QmV425Mfig4sohinWvfKS6ghwfZuEVRAbj7FeJZSwgHDE7" saved to bounty_id.txt
 [2025-03-10T05:58:31.738Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T07:50:54.885Z] Starting action with message: BOUNTY: DEVELOP A SMART CONTRACT FOR TOKEN CREATION ON SONIC
+📅 Deadline: 15/03/2025
+
+🔹 Task:
+
+Develop a smart contract on Sonic that supports token creation and transfers.
+Include comments in the code explaining each function and its purpose.
+Provide a step-by-step guide on deploying the contract on the Sonic testnet.
+Submit test cases that validate the functionality of the contract (e.g., token minting, transferring, and burning).
+[2025-03-10T07:50:54.893Z] Processing bounty creation request
+[2025-03-10T07:50:54.895Z] Extracted 7 criteria from user input
+[2025-03-10T07:50:59.056Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T07:50:59.057Z] Processed 2 posts
+[2025-03-10T07:50:59.057Z] Filtered to 2 posts
+[2025-03-10T07:50:59.057Z] Grouped into 2 author groups
+[2025-03-10T07:50:59.058Z] Starting embeddings generation...
+[2025-03-10T07:51:00.426Z] Completed post embeddings generation
+[2025-03-10T07:51:00.427Z] Starting query embedding generation...
+[2025-03-10T07:51:01.788Z] Completed query embedding generation
+[2025-03-10T07:51:01.788Z] Starting post ranking...
+[2025-03-10T07:51:01.790Z] Starting bounty creation with 2 posts
+[2025-03-10T07:51:15.839Z] Bounty ID "QmPaV97w6TUT8EtQV4QEkWdvCzwYGMLitS1tCpwMopnvCF" saved to bounty_id.txt
+[2025-03-10T07:51:15.840Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T07:51:24.729Z] Starting action with message: create bounty BUILD A SONIC-BASED NFT MARKETPLACE CONTRACT
+requirement:
+Develop a smart contract for an NFT marketplace on Sonic.
+Support minting, buying, selling, and transferring NFTs.
+Implement royalty payments for creators.
+Provide deployment steps for the Sonic testnet.
+Submit test cases for minting, listing, buying, and transferring NFTs.
+[2025-03-10T07:51:24.730Z] Processing bounty creation request
+[2025-03-10T07:51:24.730Z] Extracted 5 criteria from user input
+[2025-03-10T07:51:31.526Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T07:51:31.527Z] Processed 2 posts
+[2025-03-10T07:51:31.528Z] Filtered to 2 posts
+[2025-03-10T07:51:31.529Z] Grouped into 2 author groups
+[2025-03-10T07:51:31.530Z] Starting embeddings generation...
+[2025-03-10T07:51:33.000Z] Completed post embeddings generation
+[2025-03-10T07:51:33.001Z] Starting query embedding generation...
+[2025-03-10T07:51:33.558Z] Completed query embedding generation
+[2025-03-10T07:51:33.558Z] Starting post ranking...
+[2025-03-10T07:51:33.559Z] Starting bounty creation with 2 posts
+[2025-03-10T07:51:44.607Z] Bounty ID "QmfQyJtu5WZbZMXxqqALNjHdYVQ5hW81rwZzNfBWBbBm9n" saved to bounty_id.txt
+[2025-03-10T07:51:44.608Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T07:51:52.876Z] Starting action with message: create bounty IMPLEMENT A DECENTRALIZED VOTING SYSTEM ON SONIC
+[2025-03-10T07:51:52.877Z] Processing bounty creation request
+[2025-03-10T07:51:52.878Z] Extracted 0 criteria from user input
+[2025-03-10T07:51:58.151Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T07:51:58.152Z] Processed 2 posts
+[2025-03-10T07:51:58.152Z] Filtered to 2 posts
+[2025-03-10T07:51:58.153Z] Grouped into 2 author groups
+[2025-03-10T07:51:58.153Z] Starting embeddings generation...
+[2025-03-10T07:51:59.166Z] Completed post embeddings generation
+[2025-03-10T07:51:59.166Z] Starting query embedding generation...
+[2025-03-10T07:51:59.663Z] Completed query embedding generation
+[2025-03-10T07:51:59.664Z] Starting post ranking...
+[2025-03-10T07:51:59.666Z] Starting bounty creation with 2 posts
+[2025-03-10T07:52:12.888Z] Bounty ID "QmPxvRwfhWWMBqimgfq9aLPcG35T2UWGPx3iHoZqeDqJNd" saved to bounty_id.txt
+[2025-03-10T07:52:12.889Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T07:52:20.162Z] Starting action with message: CREATE bounty for A STAKING SMART CONTRACT ON SONIC
+📅 Deadline: 15/03/2025
+
+🔹 Task:
+
+Develop a staking contract on Sonic where users can stake tokens and earn rewards.
+Implement a locking period for staked tokens.
+Provide detailed deployment instructions for the Sonic testnet.
+Submit test cases for staking, withdrawing, and calculating rewards.
+
+[2025-03-10T07:52:20.163Z] Processing bounty creation request
+[2025-03-10T07:52:20.163Z] Extracted 6 criteria from user input
+[2025-03-10T07:52:24.730Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T07:52:24.730Z] Processed 2 posts
+[2025-03-10T07:52:24.731Z] Filtered to 2 posts
+[2025-03-10T07:52:24.731Z] Grouped into 2 author groups
+[2025-03-10T07:52:24.732Z] Starting embeddings generation...
+[2025-03-10T07:52:25.603Z] Completed post embeddings generation
+[2025-03-10T07:52:25.604Z] Starting query embedding generation...
+[2025-03-10T07:52:26.704Z] Completed query embedding generation
+[2025-03-10T07:52:26.705Z] Starting post ranking...
+[2025-03-10T07:52:26.708Z] Starting bounty creation with 2 posts
+[2025-03-10T07:52:39.732Z] Bounty ID "QmeeZMbHZUZ8W7if3M2g51TrJ6dp9sQfy8ExArzmrvKjzm" saved to bounty_id.txt
+[2025-03-10T07:52:39.733Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T08:03:36.961Z] Starting action with message: DEVELOP A SMART CONTRACT FOR A TOKEN SWAP DEX ON SONIC
+📅 Deadline: 15/03/2025
+
+🔹 Task:
+
+Build a decentralized exchange (DEX) contract on Sonic that enables token swaps.
+Implement an automated market maker (AMM) mechanism.
+Ensure liquidity providers can add/remove liquidity and earn fees.
+Provide a guide for deploying the contract on Sonic testnet.
+Submit test cases for adding liquidity, swapping, and withdrawing liquidity.
+[2025-03-10T08:03:36.962Z] Processing bounty creation request
+[2025-03-10T08:03:36.963Z] Extracted 7 criteria from user input
+[2025-03-10T08:03:46.007Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T08:03:46.010Z] Processed 2 posts
+[2025-03-10T08:03:46.011Z] Filtered to 2 posts
+[2025-03-10T08:03:46.013Z] Grouped into 2 author groups
+[2025-03-10T08:03:46.015Z] Starting embeddings generation...
+[2025-03-10T08:03:48.640Z] Completed post embeddings generation
+[2025-03-10T08:03:48.641Z] Starting query embedding generation...
+[2025-03-10T08:03:49.831Z] Completed query embedding generation
+[2025-03-10T08:03:49.831Z] Starting post ranking...
+[2025-03-10T08:03:49.833Z] Starting bounty creation with 2 posts
+[2025-03-10T08:04:00.755Z] Bounty ID "QmZGrrhdzJLeMAh1dqhZcju369orraMSndKzcLv9AJCCDU" saved to bounty_id.txt
+[2025-03-10T08:04:00.756Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T08:04:14.229Z] Starting action with message: create bounty BUILD A SONIC-BASED LOTTERY SMART CONTRACT
+📅 Deadline: 15/03/2025
+
+🔹 Task:
+
+Develop a smart contract for a decentralized lottery system on Sonic.
+Allow users to buy tickets using tokens.
+Implement a provably fair random winner selection.
+Provide deployment instructions for Sonic testnet.
+Submit test cases for ticket purchase, drawing winners, and distributing rewards.
+[2025-03-10T08:04:14.230Z] Processing bounty creation request
+[2025-03-10T08:04:14.230Z] Extracted 7 criteria from user input
+[2025-03-10T08:04:19.555Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T08:04:19.556Z] Processed 2 posts
+[2025-03-10T08:04:19.558Z] Filtered to 2 posts
+[2025-03-10T08:04:19.559Z] Grouped into 2 author groups
+[2025-03-10T08:04:19.560Z] Starting embeddings generation...
+[2025-03-10T08:04:20.510Z] Completed post embeddings generation
+[2025-03-10T08:04:20.512Z] Starting query embedding generation...
+[2025-03-10T08:04:22.992Z] Completed query embedding generation
+[2025-03-10T08:04:22.993Z] Starting post ranking...
+[2025-03-10T08:04:22.994Z] Starting bounty creation with 2 posts
+[2025-03-10T08:04:34.054Z] Bounty ID "QmQe4cD6HtZFVyiZHD1Dwpenf3CvtSHFV27yteVMdkf98f" saved to bounty_id.txt
+[2025-03-10T08:04:34.056Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T08:04:41.363Z] Starting action with message: CREATE A SONIC SMART CONTRACT FOR SUBSCRIPTION PAYMENTS
+📅 Deadline: 15/03/2025
+
+🔹 Task:
+
+Develop a contract that supports recurring subscription payments on Sonic.
+Users should be able to subscribe/unsubscribe and set payment intervals.
+Implement a mechanism to allow automatic payments via smart contract.
+Provide a guide for deploying the contract on Sonic testnet.
+Submit test cases for subscription creation, renewal, and cancellation.
+[2025-03-10T08:04:41.364Z] Processing bounty creation request
+[2025-03-10T08:04:41.364Z] Extracted 7 criteria from user input
+[2025-03-10T08:04:44.955Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T08:04:44.957Z] Processed 2 posts
+[2025-03-10T08:04:44.958Z] Filtered to 2 posts
+[2025-03-10T08:04:44.960Z] Grouped into 2 author groups
+[2025-03-10T08:04:44.962Z] Starting embeddings generation...
+[2025-03-10T08:04:46.009Z] Completed post embeddings generation
+[2025-03-10T08:04:46.023Z] Starting query embedding generation...
+[2025-03-10T08:04:46.667Z] Completed query embedding generation
+[2025-03-10T08:04:46.667Z] Starting post ranking...
+[2025-03-10T08:04:46.669Z] Starting bounty creation with 2 posts
+[2025-03-10T08:05:00.097Z] Bounty ID "QmQof6qU9s4vUCX1CXR699MEQ29MnbmBTtR3niTp2Jfcj8" saved to bounty_id.txt
+[2025-03-10T08:05:00.098Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T08:05:07.987Z] Starting action with message: DEVELOP A DAO TREASURY MANAGEMENT CONTRACT ON SONIC
+📅 Deadline: 15/03/2025
+
+🔹 Task:
+
+Build a smart contract that enables DAOs to manage treasury funds on Sonic.
+Implement multi-signature approval for fund withdrawals.
+Allow DAO members to create funding proposals and vote on them.
+Provide deployment steps for Sonic testnet.
+Submit test cases for proposal creation, voting, and fund distribution.
+[2025-03-10T08:05:07.988Z] Processing bounty creation request
+[2025-03-10T08:05:07.989Z] Extracted 7 criteria from user input
+[2025-03-10T08:05:13.600Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T08:05:13.601Z] Processed 2 posts
+[2025-03-10T08:05:13.602Z] Filtered to 2 posts
+[2025-03-10T08:05:13.602Z] Grouped into 2 author groups
+[2025-03-10T08:05:13.603Z] Starting embeddings generation...
+[2025-03-10T08:05:14.589Z] Completed post embeddings generation
+[2025-03-10T08:05:14.591Z] Starting query embedding generation...
+[2025-03-10T08:05:15.216Z] Completed query embedding generation
+[2025-03-10T08:05:15.217Z] Starting post ranking...
+[2025-03-10T08:05:15.217Z] Starting bounty creation with 2 posts
+[2025-03-10T08:05:26.345Z] Bounty ID "QmXd2YuJ33eGt1hj56SAdFeW6keqWKiVyDfcNYPKrCVqh5" saved to bounty_id.txt
+[2025-03-10T08:05:26.346Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T08:05:54.412Z] Starting action with message: DEVELOP A DAO TREASURY MANAGEMENT CONTRACT ON SONIC
+📅 Deadline: 15/03/2025
+
+🔹 Task:
+
+Build a smart contract that enables DAOs to manage treasury funds on Sonic.
+Implement multi-signature approval for fund withdrawals.
+Allow DAO members to create funding proposals and vote on them.
+Provide deployment steps for Sonic testnet.
+Submit test cases for proposal creation, voting, and fund distribution.
+[2025-03-10T08:05:54.414Z] Processing bounty creation request
+[2025-03-10T08:05:54.415Z] Extracted 7 criteria from user input
+[2025-03-10T08:05:58.560Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T08:05:58.562Z] Processed 2 posts
+[2025-03-10T08:05:58.562Z] Filtered to 2 posts
+[2025-03-10T08:05:58.563Z] Grouped into 2 author groups
+[2025-03-10T08:05:58.564Z] Starting embeddings generation...
+[2025-03-10T08:05:59.713Z] Completed post embeddings generation
+[2025-03-10T08:05:59.715Z] Starting query embedding generation...
+[2025-03-10T08:06:00.572Z] Completed query embedding generation
+[2025-03-10T08:06:00.573Z] Starting post ranking...
+[2025-03-10T08:06:00.578Z] Starting bounty creation with 2 posts
+[2025-03-10T08:06:12.616Z] Bounty ID "QmcJUD1v8bDSB4ZCpc2m6GHAwMtsMxkHs38ZQfu8ARTxJn" saved to bounty_id.txt
+[2025-03-10T08:06:12.617Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T08:06:33.141Z] Starting action with message: create bounty IMPLEMENT A SONIC-BASED DECENTRALIZED IDENTITY SYSTEM
+📅 Deadline: 15/03/2025
+
+🔹 Task:
+
+Develop a smart contract that allows users to create and manage decentralized identities (DID).
+Implement features for identity verification and reputation scoring.
+Ensure interoperability with other Web3 identity systems.
+Provide deployment instructions for Sonic testnet.
+Submit test cases for identity creation, updating, and verification.
+[2025-03-10T08:06:33.141Z] Processing bounty creation request
+[2025-03-10T08:06:33.142Z] Extracted 7 criteria from user input
+[2025-03-10T08:06:38.484Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T08:06:38.484Z] Processed 2 posts
+[2025-03-10T08:06:38.485Z] Filtered to 2 posts
+[2025-03-10T08:06:38.486Z] Grouped into 2 author groups
+[2025-03-10T08:06:38.487Z] Starting embeddings generation...
+[2025-03-10T08:06:39.921Z] Completed post embeddings generation
+[2025-03-10T08:06:39.922Z] Starting query embedding generation...
+[2025-03-10T08:06:41.245Z] Completed query embedding generation
+[2025-03-10T08:06:41.246Z] Starting post ranking...
+[2025-03-10T08:06:41.246Z] Starting bounty creation with 2 posts
+[2025-03-10T08:06:51.628Z] Bounty ID "QmfCBgmoJQExpq2yYnGTo4FDujqUaDfchXjvYDbsX8rViD" saved to bounty_id.txt
+[2025-03-10T08:06:51.629Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T08:35:52.513Z] Starting action with message: create bounty for sonic hackathon abount AI
+[2025-03-10T08:35:52.515Z] Processing bounty creation request
+[2025-03-10T08:35:52.516Z] Extracted 0 criteria from user input
+[2025-03-10T08:36:24.342Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T08:36:24.343Z] Processed 2 posts
+[2025-03-10T08:36:24.343Z] Filtered to 2 posts
+[2025-03-10T08:36:24.344Z] Grouped into 2 author groups
+[2025-03-10T08:36:24.344Z] Starting embeddings generation...
+[2025-03-10T08:36:25.324Z] Completed post embeddings generation
+[2025-03-10T08:36:25.325Z] Starting query embedding generation...
+[2025-03-10T08:36:26.754Z] Completed query embedding generation
+[2025-03-10T08:36:26.755Z] Starting post ranking...
+[2025-03-10T08:36:26.757Z] Starting bounty creation with 2 posts
+[2025-03-10T08:36:38.746Z] Bounty ID "QmNtwbJN18mgDGqPg36F4KapnTvTENqys2vvwYVmzTkAEB" saved to bounty_id.txt
+[2025-03-10T08:36:38.747Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T08:39:40.074Z] Starting action with message: create bounty IMPLEMENT A SONIC-BASED DECENTRALIZED IDENTITY SYSTEM
+📅 Deadline: 15/03/2025
+
+🔹 Task:
+
+Develop a smart contract that allows users to create and manage decentralized identities (DID).
+Implement features for identity verification and reputation scoring.
+Ensure interoperability with other Web3 identity systems.
+Provide deployment instructions for Sonic testnet.
+Submit test cases for identity creation, updating, and verification.
+[2025-03-10T08:39:40.077Z] Processing bounty creation request
+[2025-03-10T08:39:40.077Z] Extracted 7 criteria from user input
+[2025-03-10T08:40:11.689Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T08:40:11.692Z] Processed 2 posts
+[2025-03-10T08:40:11.693Z] Filtered to 2 posts
+[2025-03-10T08:40:11.693Z] Grouped into 2 author groups
+[2025-03-10T08:40:11.694Z] Starting embeddings generation...
+[2025-03-10T08:40:13.391Z] Completed post embeddings generation
+[2025-03-10T08:40:13.391Z] Starting query embedding generation...
+[2025-03-10T08:40:14.287Z] Completed query embedding generation
+[2025-03-10T08:40:14.288Z] Starting post ranking...
+[2025-03-10T08:40:14.290Z] Starting bounty creation with 2 posts
+[2025-03-10T08:40:25.103Z] Bounty ID "QmQuSZEKDFvoPFPyyytHqDRXY9k5QaLLe8gRhZRJVpGf7L" saved to bounty_id.txt
+[2025-03-10T08:40:25.103Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T08:40:34.799Z] Starting action with message: create bounty DEVELOP A DAO TREASURY MANAGEMENT CONTRACT ON SONIC
+💰 Reward: [Specify amount]
+📅 Deadline: 15/03/2025
+
+🔹 Task:
+
+Build a smart contract that enables DAOs to manage treasury funds on Sonic.
+Implement multi-signature approval for fund withdrawals.
+Allow DAO members to create funding proposals and vote on them.
+Provide deployment steps for Sonic testnet.
+Submit test cases for proposal creation, voting, and fund distribution
+[2025-03-10T08:40:34.800Z] Processing bounty creation request
+[2025-03-10T08:40:34.801Z] Extracted 8 criteria from user input
+[2025-03-10T08:41:05.222Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T08:41:05.223Z] Processed 2 posts
+[2025-03-10T08:41:05.223Z] Filtered to 2 posts
+[2025-03-10T08:41:05.224Z] Grouped into 2 author groups
+[2025-03-10T08:41:05.224Z] Starting embeddings generation...
+[2025-03-10T08:41:06.282Z] Completed post embeddings generation
+[2025-03-10T08:41:06.283Z] Starting query embedding generation...
+[2025-03-10T08:41:07.425Z] Completed query embedding generation
+[2025-03-10T08:41:07.427Z] Starting post ranking...
+[2025-03-10T08:41:07.429Z] Starting bounty creation with 2 posts
+[2025-03-10T08:41:20.710Z] Bounty ID "QmWsD4kXhtvauHCFP11NqdHXEnb2Hf2xXxNbobiNyWSiYU" saved to bounty_id.txt
+[2025-03-10T08:41:20.711Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T10:20:28.066Z] Starting action with message: create bounty for AI hackathon
+[2025-03-10T10:20:28.068Z] Processing bounty creation request
+[2025-03-10T10:20:28.069Z] Extracted 0 criteria from user input
+[2025-03-10T10:20:29.076Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T10:20:29.077Z] No valid data found from Pinata
+[2025-03-10T10:20:29.088Z] Error in action handler: No valid data found from Pinata
+Error: No valid data found from Pinata
+    at Object.handler (file:///home/quanna/sonic/AgentAptos/packages/plugin-aptos/dist/index.js:32259:27)
+    at async AgentRuntime.processActions (file:///home/quanna/sonic/AgentAptos/packages/core/dist/index.js:37189:17)
+    at async file:///home/quanna/sonic/AgentAptos/packages/client-direct/dist/index.js:5563:13
+[2025-03-10T10:34:26.543Z] Starting action with message: create bounty for AI hackathon
+[2025-03-10T10:34:26.546Z] Processing bounty creation request
+[2025-03-10T10:34:26.546Z] Extracted 0 criteria from user input
+[2025-03-10T10:34:27.619Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T10:34:27.621Z] No valid data found from Pinata
+[2025-03-10T10:34:27.637Z] Error in action handler: No valid data found from Pinata
+Error: No valid data found from Pinata
+    at Object.handler (file:///home/quanna/sonic/AgentAptos/packages/plugin-aptos/dist/index.js:32259:27)
+    at async AgentRuntime.processActions (file:///home/quanna/sonic/AgentAptos/packages/core/dist/index.js:37189:17)
+    at async file:///home/quanna/sonic/AgentAptos/packages/client-direct/dist/index.js:5557:13
+[2025-03-10T10:36:32.003Z] Starting action with message: create bounty for AI hackathon
+[2025-03-10T10:36:32.004Z] Processing bounty creation request
+[2025-03-10T10:36:32.005Z] Extracted 0 criteria from user input
+[2025-03-10T10:36:33.037Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T10:36:33.039Z] No valid data found from Pinata
+[2025-03-10T10:36:33.049Z] Error in action handler: No valid data found from Pinata
+Error: No valid data found from Pinata
+    at Object.handler (file:///home/quanna/sonic/AgentAptos/packages/plugin-aptos/dist/index.js:32259:27)
+    at async AgentRuntime.processActions (file:///home/quanna/sonic/AgentAptos/packages/core/dist/index.js:37189:17)
+    at async file:///home/quanna/sonic/AgentAptos/packages/client-direct/dist/index.js:5557:13
+[2025-03-10T10:38:38.024Z] Starting action with message: create bounty for AI hackathon
+[2025-03-10T10:38:38.026Z] Processing bounty creation request
+[2025-03-10T10:38:38.026Z] Extracted 0 criteria from user input
+[2025-03-10T10:38:42.221Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T10:38:42.223Z] No valid data found from Pinata
+[2025-03-10T10:38:42.237Z] Error in action handler: No valid data found from Pinata
+Error: No valid data found from Pinata
+    at Object.handler (file:///home/quanna/sonic/AgentAptos/packages/plugin-aptos/dist/index.js:32252:27)
+    at async AgentRuntime.processActions (file:///home/quanna/sonic/AgentAptos/packages/core/dist/index.js:37189:17)
+    at async file:///home/quanna/sonic/AgentAptos/packages/client-direct/dist/index.js:5557:13
+[2025-03-10T10:40:07.431Z] Starting action with message: create bounty for AI hackathon
+[2025-03-10T10:40:07.433Z] Processing bounty creation request
+[2025-03-10T10:40:07.433Z] Extracted 0 criteria from user input
+[2025-03-10T10:40:12.618Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T10:40:12.619Z] Processed 17 posts
+[2025-03-10T10:40:12.619Z] Filtered to 17 posts
+[2025-03-10T10:40:12.619Z] Grouped into 12 author groups
+[2025-03-10T10:40:12.620Z] Starting embeddings generation...
+[2025-03-10T10:40:14.042Z] Completed post embeddings generation
+[2025-03-10T10:40:14.043Z] Starting query embedding generation...
+[2025-03-10T10:40:14.905Z] Completed query embedding generation
+[2025-03-10T10:40:14.906Z] Starting post ranking...
+[2025-03-10T10:40:14.912Z] Starting bounty creation with 12 posts
+[2025-03-10T10:40:27.058Z] Bounty ID "QmNQdRsUZ7E8HLc71mxHxzDGJ548TaZPK59rspox1rnJMg" saved to bounty_id.txt
+[2025-03-10T10:40:27.061Z] CREATE_BOUNTY analysis completed successfully with bounty
