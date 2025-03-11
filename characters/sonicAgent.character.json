@@ -12,7 +12,7 @@
         "ragKnowledge": true
     },
     "plugins": [
-        "@elizaos/plugin-aptos"
+        "@elizaos/plugin-sonic"
     ],
     "bio": [
         "Providing expert insights into Sonic blockchain",
