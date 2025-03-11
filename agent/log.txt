@@ -680,3 +680,33 @@ Error: No valid data found from Pinata
 [2025-03-10T10:40:14.912Z] Starting bounty creation with 12 posts
 [2025-03-10T10:40:27.058Z] Bounty ID "QmNQdRsUZ7E8HLc71mxHxzDGJ548TaZPK59rspox1rnJMg" saved to bounty_id.txt
 [2025-03-10T10:40:27.061Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-10T11:11:59.429Z] Starting action with message: create bounty for AI hackathon
+[2025-03-10T11:11:59.430Z] Processing bounty creation request
+[2025-03-10T11:11:59.431Z] Extracted 0 criteria from user input
+[2025-03-10T11:12:03.551Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-10T11:12:03.553Z] Processed 16 posts
+[2025-03-10T11:12:03.553Z] Filtered to 16 posts
+[2025-03-10T11:12:03.554Z] Grouped into 11 author groups
+[2025-03-10T11:12:03.554Z] Starting embeddings generation...
+[2025-03-10T11:12:05.093Z] Completed post embeddings generation
+[2025-03-10T11:12:05.094Z] Starting query embedding generation...
+[2025-03-10T11:12:06.332Z] Completed query embedding generation
+[2025-03-10T11:12:06.332Z] Starting post ranking...
+[2025-03-10T11:12:06.335Z] Starting bounty creation with 11 posts
+[2025-03-10T11:12:20.029Z] Bounty ID "QmVF5bDXzyiAzKfggPLQcMJmKMfPbhVrxEJq5AGGp7FzU9" saved to bounty_id.txt
+[2025-03-10T11:12:20.032Z] CREATE_BOUNTY analysis completed successfully with bounty
+[2025-03-11T10:59:04.796Z] Starting action with message: create bounty for Ai hackathon
+[2025-03-11T10:59:04.797Z] Processing bounty creation request
+[2025-03-11T10:59:04.799Z] Extracted 0 criteria from user input
+[2025-03-11T10:59:07.410Z] Successfully retrieved data from Pinata on attempt 1
+[2025-03-11T10:59:07.412Z] Processed 15 posts
+[2025-03-11T10:59:07.413Z] Filtered to 15 posts
+[2025-03-11T10:59:07.413Z] Grouped into 10 author groups
+[2025-03-11T10:59:07.414Z] Starting embeddings generation...
+[2025-03-11T10:59:09.208Z] Completed post embeddings generation
+[2025-03-11T10:59:09.209Z] Starting query embedding generation...
+[2025-03-11T10:59:09.961Z] Completed query embedding generation
+[2025-03-11T10:59:09.962Z] Starting post ranking...
+[2025-03-11T10:59:09.967Z] Starting bounty creation with 10 posts
+[2025-03-11T10:59:19.751Z] Bounty ID "QmR6eMwxAHDeKhjDbiRMz5FaVHK2prDx4xdmv2PbKQz7tH" saved to bounty_id.txt
+[2025-03-11T10:59:19.752Z] CREATE_BOUNTY analysis completed successfully with bounty
